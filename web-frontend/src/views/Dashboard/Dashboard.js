@@ -223,36 +223,38 @@ class Dashboard extends Component {
         //data={config}
         data={[
           {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
+          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'DustBike', BikeOwner: "Rohan", MoveBike: 63 },
+          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
         ]} 
         // icons={{
         //   Add: forwardRef((props,ref,) => (
         //     <AddIcon {...props} ref={ref} />
         //   )),
         //  }}
-          actions={[
-            {
-              icon: "save",
-              tooltip: "Connect",
-              iconProps: { style: { color: "red" } },
-              // onClick: (event, oldData) => {
-              //   alert("You want to connect to " + oldData.ConfigurationName);
-              //   console.log(oldData);
-                // if (oldData.dbId == 3) {
-                //   api.postgresConnection(oldData).then((res) => {
-                //     // iconProps: { style: {color: "green" } }
-                //     this.setState({
-                //       connection: res.data,
-                //     });
+          // actions={[
+          //   {
+          //     icon: "save",
+          //     tooltip: "Save",
+          //     iconProps: { style: { color: "red" } },
+          //     // onClick: (event, oldData) => {
+          //     //   alert("You want to connect to " + oldData.ConfigurationName);
+          //     //   console.log(oldData);
+          //       // if (oldData.dbId == 3) {
+          //       //   api.postgresConnection(oldData).then((res) => {
+          //       //     // iconProps: { style: {color: "green" } }
+          //       //     this.setState({
+          //       //       connection: res.data,
+          //       //     });
   
-                //     console.log(connection);
-                //     alert("Msg from server:Connected");
-                //   });
-                // } else {
-                //   alert("Stay tunned for :" + oldData.ConfigurationName);
-                // }
-             // },
-            },
-          ]}
+          //       //     console.log(connection);
+          //       //     alert("Msg from server:Connected");
+          //       //   });
+          //       // } else {
+          //       //   alert("Stay tunned for :" + oldData.ConfigurationName);
+          //       // }
+          //    // },
+          //   },
+          // ]}
         components={{
           Pagination: (props) => (
             <TablePagination
