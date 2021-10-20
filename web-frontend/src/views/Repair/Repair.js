@@ -229,30 +229,30 @@ class Repair extends Component {
         //     <AddIcon {...props} ref={ref} />
         //   )),
         //  }}
-          actions={[
-            {
-              icon: "loop",
-              tooltip: "Connect",
-              iconProps: { style: { color: "red" } },
-              // onClick: (event, oldData) => {
-              //   alert("You want to connect to " + oldData.ConfigurationName);
-              //   console.log(oldData);
-                // if (oldData.dbId == 3) {
-                //   api.postgresConnection(oldData).then((res) => {
-                //     // iconProps: { style: {color: "green" } }
-                //     this.setState({
-                //       connection: res.data,
-                //     });
+          // actions={[
+          //   {
+          //     icon: "loop",
+          //     tooltip: "Connect",
+          //     iconProps: { style: { color: "red" } },
+          //     // onClick: (event, oldData) => {
+          //     //   alert("You want to connect to " + oldData.ConfigurationName);
+          //     //   console.log(oldData);
+          //       // if (oldData.dbId == 3) {
+          //       //   api.postgresConnection(oldData).then((res) => {
+          //       //     // iconProps: { style: {color: "green" } }
+          //       //     this.setState({
+          //       //       connection: res.data,
+          //       //     });
   
-                //     console.log(connection);
-                //     alert("Msg from server:Connected");
-                //   });
-                // } else {
-                //   alert("Stay tunned for :" + oldData.ConfigurationName);
-                // }
-             // },
-            },
-          ]}
+          //       //     console.log(connection);
+          //       //     alert("Msg from server:Connected");
+          //       //   });
+          //       // } else {
+          //       //   alert("Stay tunned for :" + oldData.ConfigurationName);
+          //       // }
+          //    // },
+          //   },
+          // ]}
         components={{
           Pagination: (props) => (
             <TablePagination

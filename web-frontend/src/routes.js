@@ -25,7 +25,7 @@ import Settings from "@material-ui/icons/Settings";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Repair/Repair.js";
-import Typography from "views/Typography/Typography.js";
+import Track from "views/Track/Map";
 
 const dashboardRoutes = [
   {
@@ -53,7 +53,7 @@ const dashboardRoutes = [
     path: "/track",
     name: "Track Bike",
     icon: Location,
-    component: Typography,
+    component: Track,
     layout: "/admin",
   },
 ];
