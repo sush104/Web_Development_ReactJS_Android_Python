@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-//import api from "../../api";
-
+import api from "../../api/api";
+import axios from 'axios'
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
@@ -107,12 +107,13 @@ class Dashboard extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    // await api.getAllConfigurations().then((res) => {
-    //   this.setState({
-    //     config: res.data,
-    //     isLoading: false,
-    //   });
-    // });
+    await api.getData().then((res) => {
+      this.setState({
+        config: res.data,
+        isLoading: false,
+      });
+      console.log(res.data)
+    });
 
     // await api.getdbdata().then((res) => {
     //   this.setState({
@@ -127,105 +128,105 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { config, data } = this.state;
+    const { config } = this.state;
     const {
       //DatasetID,
-      BikeName,
-      BikeID,
-      BikeLoc,
-      BikeOwner,
-      BikeBorrower,
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      session_id,
+      hashed_password,
       //CreatedBy,
-      MoveBike,
+      //dbId,
      
     } = this.state;
 
-    // const payload = {
-    //   DatasetID,
-    //   ConfigurationName,
-    //   IP,
-    //   Port,
-    //   DBUserName,
-    //   DBPassword,
-    //   DBName,
-    //   CreatedBy,
-    //   dbId,
-    // };
+    const payload = {
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      session_id,
+      hashed_password,
+    };
 
     const columns = [
       {
         title: "Bike Name",
-        field: "BikeName",
-        value: BikeName,
+        field: "id",
+        value: config.id,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike ID",
-        field: "BikeID",
-        value: BikeID,
+        field: "first_name",
+        value: config.first_name,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike Location",
-        field: "BikeLoc",
-        value: BikeLoc,
+        field: "last_name",
+        value: config.last_name,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike Owner",
-        field: "BikeOwner",
-        value: BikeOwner,
+        field: "email",
+        value: config.email,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Borrower",
-        field: "BikeBorrower",
-        value: BikeBorrower,
+        title: "Bike Problem",
+        field: "phone",
+        value: config.phone,
         cellStyle: {
           fontSize: 16,
         },
       },
-
-      {
-        title: "Move Bike",
-        field: "MoveBike",
-        value: MoveBike,
-        lookup: data.map((c) => (
-          <MenuItem key={c.id} value={c.id}>
-            {c.db}
-          </MenuItem>
-        )), 
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
+      // {
+      //   title: "Repair Status",
+      //   field: "RepairStatus",
+      //   value: RepairStatus,
+      //   lookup: data.map((c) => (
+      //     <MenuItem key={c.id} value={c.id}>
+      //       {c.db}
+      //     </MenuItem>
+      //   )), 
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
     ];
 
   
     return (
 
-        <div>
-            { this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null }
-
-      <div className= "">
       <MaterialTable
         paging={false}
         title="Dashboard"
         columns={columns}
-        //data={config}
-        data={[
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'DustBike', BikeOwner: "Rohan", MoveBike: 63 },
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
-        ]} 
+        data={[config]}
+        // data ={[
+        //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
+        // ]}
+        icons={{
+          Add: props => (
+            <div ref={AddIcon}>
+              <i className="fa fa-plus" />
+            </div>
+          ),
+        }}
         // icons={{
         //   Add: forwardRef((props,ref,) => (
         //     <AddIcon {...props} ref={ref} />
@@ -233,8 +234,8 @@ class Dashboard extends Component {
         //  }}
           // actions={[
           //   {
-          //     icon: "save",
-          //     tooltip: "Save",
+          //     icon: "loop",
+          //     tooltip: "Connect",
           //     iconProps: { style: { color: "red" } },
           //     // onClick: (event, oldData) => {
           //     //   alert("You want to connect to " + oldData.ConfigurationName);
@@ -319,8 +320,6 @@ class Dashboard extends Component {
             // }),
         }}
       />
-      </div>           
-    </div>
     );
   }
 }

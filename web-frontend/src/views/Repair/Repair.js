@@ -220,10 +220,17 @@ class Repair extends Component {
         paging={false}
         title="Repair Bikes"
         columns={columns}
-        //data={config}
-        data ={[
-           {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
-        ]}
+        data={config}
+        // data ={[
+        //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
+        // ]}
+        icons={{
+          Add: props => (
+            <div ref={AddIcon}>
+              <i className="fa fa-plus" />
+            </div>
+          ),
+        }}
         // icons={{
         //   Add: forwardRef((props,ref,) => (
         //     <AddIcon {...props} ref={ref} />

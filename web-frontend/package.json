@@ -3,7 +3,7 @@
   "version": "1.10.0",
   "description": "Material Dashboard React. Coded by Creative Tim",
   "private": false,
-  "homepage": "http://localhost:3000/",
+  "homepage": "http://localhost:3000/signin",
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",

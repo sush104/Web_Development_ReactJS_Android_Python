@@ -10,11 +10,14 @@ import Admin from "layouts/Admin.js";
 //const hist = createBrowserHistory();
 
 ReactDOM.render(
+  
+  
+
   <Router>
       <Router>
         {/* <Navbar /> */}
         <Switch>  
-        <Route path='/' component={Signin}  exact={true}/>
+        <Route path='/signin' component={Signin}  exact={true}/>
         <Route  path='/signup' component={Signup} />
         <Route path="/admin" component={Admin} />
       
