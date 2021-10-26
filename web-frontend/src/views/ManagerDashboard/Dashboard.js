@@ -228,7 +228,7 @@ class Dashboard extends Component {
 
       <MaterialTable
         paging={false}
-        title="Dashboard"
+        title="Manager Dashboard"
         columns={columns}
         data={[config]}
         // data ={[

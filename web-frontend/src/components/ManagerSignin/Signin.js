@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import api from "../../api/api";
+import managerpng from "../../assets/img/Manager.png"
 
 function Copyright(props) {
   return (
@@ -31,12 +33,26 @@ const theme = createTheme();
 export default function Signin() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    
+    //const data = new FormData(event.currentTarget);
+    const data = new FormData();
+    data.append('email', 'martin.heidegger@gmail.com');
+    data.append('hashed_password', 'Pass@123');
+    
+    console.log(data);
+
+    api.login(data).then((res) => {
+      console.log(res.data)
+      // if(res.data.Message == "")
+      //   {
+      //     this.props.history.push('/admin/dashboard')
+      //     location.href = '/admin/dashboard'
+      //   }
+      // else
+      //   this.props.history.push('/signin')
     });
+    
+    location.href = '/manager/dashboard'
   };
 
   return (
@@ -49,11 +65,10 @@ export default function Signin() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1478679998273-573b05e79e0c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)',
+            backgroundImage: `url(${managerpng})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         />
@@ -71,7 +86,7 @@ export default function Signin() {
               
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Manager Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -113,8 +128,8 @@ export default function Signin() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/operatorsignin" variant="body2">
+                    {"Are you a Operator? Login Here"}
                   </Link>
                 </Grid>
               </Grid>

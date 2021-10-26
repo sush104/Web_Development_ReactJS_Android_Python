@@ -4,14 +4,24 @@ const instance = axios.create({
     baseURL: 'https://bikeez.herokuapp.com',
 });
 
-var data = {"id" : 300}
-var bodyFormData = new FormData();
-bodyFormData.append('id', '300');
+
+
+// var bodyFormData = new FormData();
+// bodyFormData.append('email', 'martin.heidegger@gmail.com');
+// bodyFormData.append('hashed_password', 'Pass@123');
+
 export default {
-    getData: () =>
+    getData: (bodyFormData) =>
     instance({
         method:'POST',
         url:'/operators/details',
+        data:  bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    login: (bodyFormData) =>
+    instance({
+        method:'POST',
+        url:'/operators/login',
         data:  bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
     })
