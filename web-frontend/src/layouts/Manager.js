@@ -10,7 +10,7 @@ import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
-import routes from "routes.js";
+import managerroutes from "managerroutes.js";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
@@ -21,8 +21,8 @@ let ps;
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+    {managerroutes.map((prop, key) => {
+      if (prop.layout === "/manager") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -33,13 +33,13 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/admin" to="/admin/dashboard" />
+    <Redirect from="/manager" to="/manager/dashboard" />
   </Switch>
 );
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+export default function Manager({ ...rest }) {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -52,7 +52,7 @@ export default function Admin({ ...rest }) {
     setMobileOpen(!mobileOpen);
   };
   const getRoute = () => {
-    return window.location.pathname !== "/admin/maps";
+    return window.location.pathname !== "/manager/maps";
   };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
@@ -80,8 +80,8 @@ export default function Admin({ ...rest }) {
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
-        logoText={"Bikeez :- Operator"}
+        routes={managerroutes}
+        logoText={"Bikeez :- Manager"}
         logo={logo}
         image={image}
         handleDrawerToggle={handleDrawerToggle}
@@ -91,7 +91,7 @@ export default function Admin({ ...rest }) {
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         <Navbar
-          routes={routes}
+          routes={managerroutes}
           handleDrawerToggle={handleDrawerToggle}
           {...rest}
         />
