@@ -11,11 +11,10 @@ const instance = axios.create({
 // bodyFormData.append('hashed_password', 'Pass@123');
 
 export default {
-    getData: (bodyFormData) =>
+    getCycle: () =>
     instance({
-        method:'POST',
-        url:'/operators/details',
-        data:  bodyFormData,
+        method:'GET',
+        url:'/operators/showcycle',
         headers: { "Content-Type": "multipart/form-data" },
     }),
     login: (bodyFormData) =>
@@ -23,6 +22,18 @@ export default {
         method:'POST',
         url:'/operators/login',
         data:  bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    getStation: () =>
+    instance({
+        method:'GET',
+        url:'/operators/showstation',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    getStatus: () =>
+    instance({
+        method:'GET',
+        url:'operators/showstatus',
         headers: { "Content-Type": "multipart/form-data" },
     })
 }

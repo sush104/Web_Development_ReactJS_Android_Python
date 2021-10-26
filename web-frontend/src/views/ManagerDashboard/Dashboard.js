@@ -119,13 +119,13 @@ class Dashboard extends Component {
 
      console.log(bodyFormData)
 
-    await api.getData(bodyFormData).then((res) => {
-      this.setState({
-        config: res.data,
-        isLoading: false,
-      });
-      //console.log(res.data)
-    });
+    // await api.getData(bodyFormData).then((res) => {
+    //   this.setState({
+    //     config: res.data,
+    //     isLoading: false,
+    //   });
+    //   //console.log(res.data)
+    // });
 
     
     // await api.getdbdata().then((res) => {
