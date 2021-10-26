@@ -110,6 +110,9 @@ class Dashboard extends Component {
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
+     
+    var bodyFormData = new FormData();
+     bodyFormData.append('id', '300');
 
     await api.getCycle().then((res) => {
       this.setState({

@@ -51,32 +51,11 @@ function getStyles(name, personName, theme) {
 }
 
 export default function App() {
-  //const [data, setData] = React.useState(null);
+  const [activePark, setActivePark] = React.useState(null);
   const position = [55.882309, -4.270780]
-  const [lat, setlat] = React.useState(null);
-  const [long, setLong] = React.useState(null);
+
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
-
-  useEffect(() => {
-    loadRelation()
-}, [])
-
-  const loadRelation = () => {
-      api.getStation().then((res) => {
-        //setlat(res.data.response[)
-        //console.log("Station in Map->",res.data.response)
-        const data = res.data.response.map((c) => {
-          return {
-            //station_id: c.station_id,
-            address: c.address,
-          };
-          
-        })
-        const demo = data
-        console.log("Station in Map->",data)
-      });
-    }
 
   const handleChange = (event) => {
     const {
