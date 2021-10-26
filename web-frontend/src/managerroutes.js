@@ -23,6 +23,7 @@ import Settings from "@material-ui/icons/Settings";
 
 // core components/views for Admin layout
 import ManagerDashboardPage from "views/ManagerDashboard/Dashboard.js";
+import ManagerReports from "views/ManagerReports/ManagerReports";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/Repair/Repair.js";
 import Track from "views/Track/Map";
