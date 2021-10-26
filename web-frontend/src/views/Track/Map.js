@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Icon } from "leaflet";
 import * as parkData from "./Data/skateboard-parks.json";
 import "./Map.css";
-
+import api from "../../api/api";
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { margin, positions } from "@mui/system";
+import { SettingsSystemDaydreamTwoTone } from "@material-ui/icons";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -34,6 +36,10 @@ const names = [
   'Virginia Andrews',
   'Kelly Snyder',
 ];
+
+
+
+//console.log("Station in Map->",data)
 
 function getStyles(name, personName, theme) {
   return {
@@ -75,7 +81,7 @@ export default function App() {
           input={<OutlinedInput label="Name" />}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {position.map((name) => (
             <MenuItem
               key={name}
               value={name}

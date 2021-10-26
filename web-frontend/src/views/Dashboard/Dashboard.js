@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import api from "../../api/api";
-import axios from 'axios'
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { TablePagination } from "@material-ui/core";
-import { forwardRef } from "react";
 import AddIcon from "@material-ui/icons/LibraryAdd";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -13,7 +11,6 @@ import CancelIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
-
 import MenuItem from "@material-ui/core/MenuItem";
 
 // import styled from "styled-components";
@@ -117,104 +114,131 @@ class Dashboard extends Component {
     var bodyFormData = new FormData();
      bodyFormData.append('id', '300');
 
-     console.log(bodyFormData)
-
-    await api.getData(bodyFormData).then((res) => {
+    await api.getCycle().then((res) => {
       this.setState({
-        config: res.data,
+        config: res.data.response,
         isLoading: false,
       });
-      //console.log(res.data)
+      //console.log(res.data.response)
     });
 
     
-    // await api.getdbdata().then((res) => {
+    await api.getStation().then((res) => {
+      this.setState({
+        data: res.data.response.map((c) => {
+          return {
+            id: c.station_id,
+            address: c.address,
+          };
+        }),
+      });
+      //console.log("Station->",res.data.response)
+    });
+
+    // await api.getStatus().then((res) => {
     //   this.setState({
-    //     data: res.data.map((c) => {
+    //     dump: res.data.response.map((c) => {
     //       return {
-    //         id: c.dbID,
-    //         db: c.dbType,
+    //         status_id: c.status_id,
+    //         status: c.status,
     //       };
     //     }),
     //   });
+    //   //console.log("Station->",res.data.response)
     // });
   };
 
   render() {
     const { config, data } = this.state;
     const {
-      //DatasetID,
-      id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      session_id,
-      hashed_password,
-      MoveBike,
-      //CreatedBy,
-      //dbId,
-     
+      cycle_id,
+      station_id,
+      category,
+      is_charging,
+      battery_percentage,
+      model_number,
+      status_id,
     } = this.state;
 
     const payload = {
-      id,
-      first_name,
-      last_name,
-      email,
-      phone,
-      session_id,
-      hashed_password,
+      cycle_id,
+      station_id,
+      category,
+      is_charging,
+      battery_percentage,
+      model_number,
+      status_id,
     };
 
     const columns = [
       {
-        title: "Bike Name",
-        field: "id",
-        value: config.id,
+        title: "Cycle Model No",
+        field: "model_number",
+        value: model_number,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike ID",
-        field: "first_name",
-        value: config.first_name,
+        title: "Cycle category",
+        field: "category",
+        value: category,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Location",
-        field: "last_name",
-        value: config.last_name,
+        title: "Charging Status",
+        field: "is_charging",
+        value: is_charging,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Owner",
-        field: "email",
-        value: config.email,
+        title: "Battery Percentage",
+        field: "battery_percentage",
+        value: battery_percentage,
         cellStyle: {
           fontSize: 16,
         },
       },
+      // {
+      //   title: "Status Id",
+      //   field: "status_id",
+      //   value: status_id,
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
+      // {
+      //   title: "Status",
+      //   field: "status_id",
+      //   value: status_id,
+      //   lookup: dump.map((c) => (
+      //     <MenuItem key={c.status_id} value={c.status_id}>
+      //       {c.status}
+      //     </MenuItem>
+      //   )),
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
+      // {
+      //   title: "Station Id",
+      //   field: "station_id",
+      //   value: station_id,
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
       {
-        title: "Bike Problem",
-        field: "phone",
-        value: config.phone,
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      {
-        title: "MoveBike",
-        field: "MoveBike",
-        value: MoveBike,
+        title: "Move Station",
+        field: "station_id",
+        value: station_id,
         lookup: data.map((c) => (
           <MenuItem key={c.id} value={c.id}>
-            {c.db}
+            {c.address}
           </MenuItem>
         )), 
         cellStyle: {
@@ -230,7 +254,7 @@ class Dashboard extends Component {
         paging={false}
         title="Dashboard"
         columns={columns}
-        data={[config]}
+        data={config}
         // data ={[
         //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
         // ]}
@@ -318,6 +342,8 @@ class Dashboard extends Component {
             color: "#f8f9fa",
             fontSize: "18px", 
           },
+          sorting: false,
+          
         }}
         editable={{
           onRowAdd: () =>

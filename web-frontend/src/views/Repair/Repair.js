@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-//import api from "../../api";
-
+import api from "../../api/api";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { TablePagination } from "@material-ui/core";
-import { forwardRef } from "react";
 import AddIcon from "@material-ui/icons/LibraryAdd";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CancelIcon from "@material-ui/icons/Clear";
+import SearchIcon from "@material-ui/icons/Search";
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
 import MenuItem from "@material-ui/core/MenuItem";
 
 // import styled from "styled-components";
@@ -91,7 +95,7 @@ const classes = makeStyles((theme) => ({
 //   padding: 0 40px 40px 40px;
 // `;
 
-class Repair extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -107,102 +111,101 @@ class Repair extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    // await api.getAllConfigurations().then((res) => {
-    //   this.setState({
-    //     config: res.data,
-    //     isLoading: false,
-    //   });
-    // });
+    await api.getCycle().then((res) => {
+      this.setState({
+        config: res.data.response,
+        isLoading: false,
+      });
+      //console.log(res.data.response)
+    });
 
-    // await api.getdbdata().then((res) => {
-    //   this.setState({
-    //     data: res.data.map((c) => {
-    //       return {
-    //         id: c.dbID,
-    //         db: c.dbType,
-    //       };
-    //     }),
-    //   });
-    // });
+
+    await api.getStatus().then((res) => {
+      this.setState({
+        data: res.data.response.map((c) => {
+          return {
+            status_id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      //console.log("Station->",res.data.response)
+    });
   };
 
   render() {
-    const { config,data } = this.state;
+    const { config, data, dump } = this.state;
+    console.log("station->>",data)
     const {
-      //DatasetID,
-      BikeName,
-      BikeID,
-      BikeLoc,
-      BikeOwner,
-      BikeProblem,
-      RepairStatus,
-      //CreatedBy,
-      //dbId,
-     
+      cycle_id,
+      station_id,
+      category,
+      is_charging,
+      battery_percentage,
+      model_number,
+      status_id,
     } = this.state;
 
-    // const payload = {
-    //   DatasetID,
-    //   ConfigurationName,
-    //   IP,
-    //   Port,
-    //   DBUserName,
-    //   DBPassword,
-    //   DBName,
-    //   CreatedBy,
-    //   dbId,
-    // };
+    const payload = {
+      cycle_id,
+      station_id,
+      category,
+      is_charging,
+      battery_percentage,
+      model_number,
+      status_id,
+    };
 
     const columns = [
       {
-        title: "Bike Name",
-        field: "BikeName",
-        value: BikeName,
+        title: "Cycle Model No",
+        field: "model_number",
+        value: model_number,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike ID",
-        field: "BikeID",
-        value: BikeID,
+        title: "Cycle category",
+        field: "category",
+        value: category,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Location",
-        field: "BikeLoc",
-        value: BikeLoc,
+        title: "Charging Status",
+        field: "is_charging",
+        value: is_charging,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Owner",
-        field: "BikeOwner",
-        value: BikeOwner,
+        title: "Battery Percentage",
+        field: "battery_percentage",
+        value: battery_percentage,
         cellStyle: {
           fontSize: 16,
         },
       },
+      // {
+      //   title: "Status Id",
+      //   field: "status_id",
+      //   value: status_id,
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
       {
-        title: "Bike Problem",
-        field: "BikeProblem",
-        value: BikeProblem,
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      {
-        title: "Repair Status",
-        field: "RepairStatus",
-        value: RepairStatus,
+        title: "Status",
+        field: "status_id",
+        value: status_id,
         lookup: data.map((c) => (
-          <MenuItem key={c.id} value={c.id}>
-            {c.db}
+          <MenuItem key={c.status_id} value={c.status_id}>
+            {c.status}
           </MenuItem>
-        )), 
+        )),
         cellStyle: {
           fontSize: 16,
         },
@@ -212,13 +215,9 @@ class Repair extends Component {
   
     return (
 
-        <div>
-            { this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null }
-
-      <div className= "">
       <MaterialTable
         paging={false}
-        title="Repair Bikes"
+        title="Repair Bike"
         columns={columns}
         data={config}
         // data ={[
@@ -230,12 +229,32 @@ class Repair extends Component {
               <i className="fa fa-plus" />
             </div>
           ),
+          Edit: props => (
+            <div ref={EditIcon}>
+              <i className="fa fa-pencil-alt"></i>
+            </div>
+          ),
+          Delete: props => (
+            <div ref={DeleteIcon}>
+              <i className="fa fa-trash"></i>
+            </div>
+          ),
+          Clear: props => (
+            <div ref={CancelIcon}>
+              <i className="fa fa-times"></i>
+            </div>
+          ),
+          Search: props => (
+            <div ref={SearchIcon}>
+              <i className="fa fa-search"></i>
+            </div>
+          ),
+          Check: props => (
+            <div ref={Check}>
+              <i className="fa fa-check"></i>
+            </div>
+          ),
         }}
-        // icons={{
-        //   Add: forwardRef((props,ref,) => (
-        //     <AddIcon {...props} ref={ref} />
-        //   )),
-        //  }}
           // actions={[
           //   {
           //     icon: "loop",
@@ -286,13 +305,13 @@ class Repair extends Component {
           headerStyle: {
             backgroundColor: "#00acc1",
             color: "#f8f9fa",
-            fontSize: "18px",
+            fontSize: "18px", 
           },
+          sorting: false,
+          
         }}
         editable={{
-          
           onRowAdd: () =>
-			
             // api.insertConfig(newData).then((res) => {
             //   window.alert(`Configuration inserted successfully`);
             //   api.getAllConfigurations().then((res) => {
@@ -324,10 +343,8 @@ class Repair extends Component {
             // }),
         }}
       />
-      </div>           
-    </div>
     );
   }
 }
 
-export default withRouter(Repair);
+export default withRouter(Dashboard);
