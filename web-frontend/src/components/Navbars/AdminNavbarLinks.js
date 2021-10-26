@@ -34,6 +34,9 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const handleLogout = () => {
+    location.href = '/signin';
+  };
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -100,10 +103,10 @@ export default function AdminNavbarLinks() {
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleCloseProfile}>
+                <ClickAwayListener onClickAway={handleLogout}>
                   <MenuList role="menu">
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={handleLogout}
                       className={classes.dropdownItem}
                     >
                       {/* Profile

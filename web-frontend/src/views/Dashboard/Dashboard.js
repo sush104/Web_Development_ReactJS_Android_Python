@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-//import api from "../../api";
-
+import api from "../../api/api";
+import axios from 'axios'
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { TablePagination } from "@material-ui/core";
 import { forwardRef } from "react";
 import AddIcon from "@material-ui/icons/LibraryAdd";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CancelIcon from "@material-ui/icons/Clear";
+import SearchIcon from "@material-ui/icons/Search";
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+
 import MenuItem from "@material-ui/core/MenuItem";
 
 // import styled from "styled-components";
@@ -106,14 +113,21 @@ class Dashboard extends Component {
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
+     
+    var bodyFormData = new FormData();
+     bodyFormData.append('id', '300');
 
-    // await api.getAllConfigurations().then((res) => {
-    //   this.setState({
-    //     config: res.data,
-    //     isLoading: false,
-    //   });
-    // });
+     console.log(bodyFormData)
 
+    await api.getData(bodyFormData).then((res) => {
+      this.setState({
+        config: res.data,
+        isLoading: false,
+      });
+      //console.log(res.data)
+    });
+
+    
     // await api.getdbdata().then((res) => {
     //   this.setState({
     //     data: res.data.map((c) => {
@@ -130,72 +144,72 @@ class Dashboard extends Component {
     const { config, data } = this.state;
     const {
       //DatasetID,
-      BikeName,
-      BikeID,
-      BikeLoc,
-      BikeOwner,
-      BikeBorrower,
-      //CreatedBy,
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      session_id,
+      hashed_password,
       MoveBike,
+      //CreatedBy,
+      //dbId,
      
     } = this.state;
 
-    // const payload = {
-    //   DatasetID,
-    //   ConfigurationName,
-    //   IP,
-    //   Port,
-    //   DBUserName,
-    //   DBPassword,
-    //   DBName,
-    //   CreatedBy,
-    //   dbId,
-    // };
+    const payload = {
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      session_id,
+      hashed_password,
+    };
 
     const columns = [
       {
         title: "Bike Name",
-        field: "BikeName",
-        value: BikeName,
+        field: "id",
+        value: config.id,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike ID",
-        field: "BikeID",
-        value: BikeID,
+        field: "first_name",
+        value: config.first_name,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike Location",
-        field: "BikeLoc",
-        value: BikeLoc,
+        field: "last_name",
+        value: config.last_name,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
         title: "Bike Owner",
-        field: "BikeOwner",
-        value: BikeOwner,
+        field: "email",
+        value: config.email,
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Bike Borrower",
-        field: "BikeBorrower",
-        value: BikeBorrower,
+        title: "Bike Problem",
+        field: "phone",
+        value: config.phone,
         cellStyle: {
           fontSize: 16,
         },
       },
-
       {
-        title: "Move Bike",
+        title: "MoveBike",
         field: "MoveBike",
         value: MoveBike,
         lookup: data.map((c) => (
@@ -212,29 +226,50 @@ class Dashboard extends Component {
   
     return (
 
-        <div>
-            { this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null }
-
-      <div className= "">
       <MaterialTable
         paging={false}
         title="Dashboard"
         columns={columns}
-        //data={config}
-        data={[
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'DustBike', BikeOwner: "Rohan", MoveBike: 63 },
-          {BikeBorrower : "Rohan", BikeID: 1, BikeLoc: 'UofG', BikeName: 'MountainRainger', BikeOwner: "Sushant", MoveBike: 63 },
-        ]} 
-        // icons={{
-        //   Add: forwardRef((props,ref,) => (
-        //     <AddIcon {...props} ref={ref} />
-        //   )),
-        //  }}
+        data={[config]}
+        // data ={[
+        //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
+        // ]}
+        icons={{
+          Add: props => (
+            <div ref={AddIcon}>
+              <i className="fa fa-plus" />
+            </div>
+          ),
+          Edit: props => (
+            <div ref={EditIcon}>
+              <i className="fa fa-pencil-alt"></i>
+            </div>
+          ),
+          Delete: props => (
+            <div ref={DeleteIcon}>
+              <i className="fa fa-trash"></i>
+            </div>
+          ),
+          Clear: props => (
+            <div ref={CancelIcon}>
+              <i className="fa fa-times"></i>
+            </div>
+          ),
+          Search: props => (
+            <div ref={SearchIcon}>
+              <i className="fa fa-search"></i>
+            </div>
+          ),
+          Check: props => (
+            <div ref={Check}>
+              <i className="fa fa-check"></i>
+            </div>
+          ),
+        }}
           // actions={[
           //   {
-          //     icon: "save",
-          //     tooltip: "Save",
+          //     icon: "loop",
+          //     tooltip: "Connect",
           //     iconProps: { style: { color: "red" } },
           //     // onClick: (event, oldData) => {
           //     //   alert("You want to connect to " + oldData.ConfigurationName);
@@ -281,13 +316,11 @@ class Dashboard extends Component {
           headerStyle: {
             backgroundColor: "#00acc1",
             color: "#f8f9fa",
-            fontSize: "18px",
+            fontSize: "18px", 
           },
         }}
         editable={{
-          
           onRowAdd: () =>
-			
             // api.insertConfig(newData).then((res) => {
             //   window.alert(`Configuration inserted successfully`);
             //   api.getAllConfigurations().then((res) => {
@@ -319,8 +352,6 @@ class Dashboard extends Component {
             // }),
         }}
       />
-      </div>           
-    </div>
     );
   }
 }
