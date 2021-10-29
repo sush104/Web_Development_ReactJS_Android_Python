@@ -111,7 +111,7 @@ class Dashboard extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    await api.getCycle().then((res) => {
+    await api.showDamagedCycle().then((res) => {
       this.setState({
         config: res.data.response,
         isLoading: false,
@@ -134,7 +134,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { config, data, dump } = this.state;
+    const { config, data } = this.state;
     console.log("station->>",data)
     const {
       cycle_id,
