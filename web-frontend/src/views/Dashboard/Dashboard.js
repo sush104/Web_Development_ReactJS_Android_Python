@@ -228,6 +228,35 @@ class Dashboard extends Component {
           fontSize: 16,
         },
       },
+      // {
+      //   title: "Status Id",
+      //   field: "status_id",
+      //   value: status_id,
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
+      // {
+      //   title: "Status",
+      //   field: "status_id",
+      //   value: status_id,
+      //   lookup: dump.map((c) => (
+      //     <MenuItem key={c.status_id} value={c.status_id}>
+      //       {c.status}
+      //     </MenuItem>
+      //   )),
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
+      // {
+      //   title: "Station Id",
+      //   field: "station_id",
+      //   value: station_id,
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
       {
         title: "Move Station",
         field: "station_id",
