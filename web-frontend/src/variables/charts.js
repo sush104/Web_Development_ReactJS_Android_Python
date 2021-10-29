@@ -72,18 +72,18 @@ const dailySalesChart = {
 const emailsSubscriptionChart = {
   data: {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Ja",
+      "Fe",
+      "Ma",
+      "Ap",
+      "Ma",
+      "Ju",
+      "Ju",
+      "Au",
+      "Se",
+      "Oc",
+      "No",
+      "De",
     ],
     series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]],
   },
@@ -92,7 +92,7 @@ const emailsSubscriptionChart = {
       showGrid: false,
     },
     low: 0,
-    high: 1000,
+    high: 850,
     chartPadding: {
       top: 0,
       right: 5,
@@ -182,6 +182,13 @@ const completedTasksChart = {
     },
   },
 };
+
+
+// ##############################
+// // // New chart Tasks
+// #############################
+
+
 
 module.exports = {
   dailySalesChart,
