@@ -96,7 +96,7 @@ const classes = makeStyles((theme) => ({
 //   padding: 0 40px 40px 40px;
 // `;
 
-class Dashboard extends Component {
+class Move extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -183,6 +183,7 @@ class Dashboard extends Component {
         title: "Cycle category",
         field: "category",
         value: category,
+        editable: 'never',
         cellStyle: {
           fontSize: 16,
         },
@@ -190,8 +191,8 @@ class Dashboard extends Component {
       {
         title: "Charging Status",
         field: "is_charging",
-        value: is_charging,
-        editable: 'onUpdate',
+        value: is_charging, 
+        editable: 'never',
         cellStyle: {
           fontSize: 16,
         },
@@ -200,7 +201,7 @@ class Dashboard extends Component {
         title: "Battery Percentage",
         field: "battery_percentage",
         value: battery_percentage,
-        editable: 'onUpdate',
+        editable: 'never',
         cellStyle: {
           fontSize: 16,
         },
@@ -209,7 +210,7 @@ class Dashboard extends Component {
         title: "Availability Status",
         field: "status_id",
         value: status_id,
-        editable: 'onUpdate',
+        editable: 'never',
         lookup: dump.map((d) => (
           <MenuItem key={d.id} value={d.id}>
             {d.status}
@@ -220,7 +221,7 @@ class Dashboard extends Component {
         },
       },
       {
-        title: "Station Name",
+        title: "Move Station",
         field: "station_id",
         value: station_id,
         lookup: data.map((c) => (
@@ -239,26 +240,16 @@ class Dashboard extends Component {
 
       <MaterialTable
         paging={false}
-        title="Dashboard"
+        title="Move Bike"
         columns={columns}
         data={config}
         // data ={[
         //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
         // ]}
         icons={{
-          Add: props => (
-            <div ref={AddIcon}>
-              <i className="fa fa-plus" />
-            </div>
-          ),
           Edit: props => (
             <div ref={EditIcon}>
-              <i className="fa fa-pencil-alt"></i>
-            </div>
-          ),
-          Delete: props => (
-            <div ref={DeleteIcon}>
-              <i className="fa fa-trash"></i>
+              <i className="fa fa-route"></i>
             </div>
           ),
           Clear: props => (
@@ -309,55 +300,32 @@ class Dashboard extends Component {
           
         }}
         editable={{
-          onRowAdd: (newData, details = new FormData()) =>
+          onRowUpdate: (oldData , newData, details = new FormData()) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
             {
+              details.append("cycle_id", oldData.cycle_id);
               details.append("station_id", newData.station_id);
-              details.append("category", newData.category);
               // for (var pair of details.entries()) {
               //   console.log(pair[0]+ ', ' + pair[1]); 
               // }
-              api.addCycle(details).then((res) => {
+              api.moveCycle(details).then((res) => {
                 api.getCycle().then((res) => {
                   this.setState({
                     config: res.data.response,
                     isLoading: true,
                   });
                 });
-                window.alert("Added")
+                window.alert("Moved")
               });
             }
             resolve()
             }, 1000)
           }),
-          onRowDelete: (oldData, id = new FormData()) =>
-            new Promise((resolve, reject) => {
-              setTimeout(() => {
-              {
-                id.append("cycle_id", oldData.cycle_id);
-                console.log(id);
-                api.deleteCycle(id).then((res) => {
-                  api.getCycle().then((res) => {
-                    this.setState({
-                      config: res.data.response,
-                      isLoading: true,
-                    });
-                  });
-                  window.alert("Deleted")
-                });
-              }
-              resolve()
-              }, 1000)
-            }),
-            //oldData.append('cycle_id', oldData.cycle_id)
-            //id = new FormData()
-            //id.append('cycle_id', oldData.cycle_id)
-            
         }}
       />
     );
   }
 }
 
-export default withRouter(Dashboard);
+export default withRouter(Move);
