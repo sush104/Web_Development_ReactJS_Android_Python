@@ -231,12 +231,12 @@ class Dashboard extends Component {
           ),
           Edit: props => (
             <div ref={EditIcon}>
-              <i className="fa fa-pencil-alt"></i>
+              <i className="fa fa-wrench"></i>
             </div>
           ),
           Delete: props => (
             <div ref={DeleteIcon}>
-              <i className="fa fa-trash"></i>
+              <i className="fa fa-wrench"></i>
             </div>
           ),
           Clear: props => (
@@ -309,38 +309,37 @@ class Dashboard extends Component {
           },
           sorting: false,
           
+          
+        }}
+        localization={{
+          body: {
+            editRow: {
+              deleteText: 'Do you want to repair this bike?'
+            }
+          }
         }}
         editable={{
-          onRowAdd: () =>
-            // api.insertConfig(newData).then((res) => {
-            //   window.alert(`Configuration inserted successfully`);
-            //   api.getAllConfigurations().then((res) => {
-                this.setState({
-                  //config: data,
-                  isLoading: false,
-                }),
-            //   });
-            // }),
-          onRowUpdate: () =>
-            // api.updateConfig(oldData.DatasetID, newData).then((res) => {
-            //   window.alert(`Configuration Updated successfully`);
-            //   api.getAllConfigurations().then((res) => {
-                this.setState({
-                  //config: data,
-                  isLoading: false,
-                }),
-            //   });
-            // }),
-          onRowDelete: () =>
-            // api.deleteConfigByPort(oldData.DatasetID).then((res) => {
-            //   window.alert(`Configuration deleted successfully`);
-            //   api.getAllConfigurations().then((res) => {
-                this.setState({
-                  //config: data,
-                  isLoading: false,
-                }),
-            //   });
-            // }),
+          onRowDelete: (oldData, id = new FormData()) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+            {
+              id.append("cycle_id", oldData.cycle_id);
+              // for (var pair of details.entries()) {
+              //   console.log(pair[0]+ ', ' + pair[1]); 
+              // }
+              api.repairStatus(id).then((res) => {
+                api.showDamagedCycle().then((res) => {
+                  this.setState({
+                    config: res.data.response,
+                    isLoading: true,
+                  });
+                });
+                window.alert("Repaired")
+              });
+            }
+            resolve()
+            }, 1000)
+          }),
         }}
       />
     );

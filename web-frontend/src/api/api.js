@@ -14,7 +14,7 @@ export default {
     getCycle: () =>
     instance({
         method:'GET',
-        url:'/operators/showcycle',
+        url:'/cycles/show',
         headers: { "Content-Type": "multipart/form-data" },
     }),
     login: (bodyFormData) =>
@@ -39,28 +39,35 @@ export default {
     deleteCycle: (cycle_id) =>
     instance({
         method:'DELETE',
-        url:'/operators/deletecycle',
+        url:'/cycles/delete',
         data: cycle_id,
         headers: { "Content-Type": "multipart/form-data" },
     }),
     addCycle: (details) =>
     instance({
         method: 'POST',
-        url: '/operators/addcycles',
+        url: '/cycles/add',
         data: details,
         headers: { "Content-Type": "multipart/form-data" },
     }),
-    updateCycle: (cycledata) =>
+    moveCycle: (moveDetails) =>
     instance({
-        method: 'PUT',
-        url: 'operators/movecycle',
-        data: cycledata,
+        method: 'POST',
+        url: 'cycles/move',
+        data: moveDetails,
         headers: { "Content-Type": "multipart/form-data" },
     }),
     showDamagedCycle: () =>
     instance({
         method: 'GET',
-        url: 'operators/repair',
+        url: 'cycles/repair',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    repairStatus: (cycleid) =>
+    instance({
+        method: 'POST',
+        url: 'cycles/repairstatus',
+        data: cycleid,
         headers: { "Content-Type": "multipart/form-data" },
     })
 }

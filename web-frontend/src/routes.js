@@ -20,12 +20,14 @@ import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import Location from "@material-ui/icons/Room";
 import Settings from "@material-ui/icons/Settings";
+import Move from "@material-ui/icons/PanTool";
 
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/Repair/Repair.js";
+import RepairPage from "views/Repair/Repair.js";
 import Track from "views/Track/Map";
+import MovePage from "views/Move/Move";
 
 const dashboardRoutes = [
   {
@@ -43,10 +45,17 @@ const dashboardRoutes = [
     layout: "/admin",
   },
   {
+    path: "/move",
+    name: "Move Bike",
+    icon: Move,
+    component: MovePage,
+    layout: "/admin",
+  },
+  {
     path: "/repair",
     name: "Repair Bike",
     icon: Settings,
-    component: TableList,
+    component: RepairPage,
     layout: "/admin",
   },
   {
