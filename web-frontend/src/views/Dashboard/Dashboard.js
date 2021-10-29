@@ -12,6 +12,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import MenuItem from "@material-ui/core/MenuItem";
+import { alpha } from '@material-ui/core/styles'
 
 // import styled from "styled-components";
 
@@ -101,6 +102,7 @@ class Dashboard extends Component {
     this.state = {
       config: [],
       data: [],
+      dump: [],
       columns: [],
       connection: [],
       isLoading: true,
@@ -110,9 +112,6 @@ class Dashboard extends Component {
   }
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-     
-    var bodyFormData = new FormData();
-     bodyFormData.append('id', '300');
 
     await api.getCycle().then((res) => {
       this.setState({
@@ -121,7 +120,6 @@ class Dashboard extends Component {
       });
       //console.log(res.data.response)
     });
-
     
     await api.getStation().then((res) => {
       this.setState({
@@ -135,21 +133,34 @@ class Dashboard extends Component {
       //console.log("Station->",res.data.response)
     });
 
-    // await api.getStatus().then((res) => {
-    //   this.setState({
-    //     dump: res.data.response.map((c) => {
-    //       return {
-    //         status_id: c.status_id,
-    //         status: c.status,
-    //       };
-    //     }),
-    //   });
-    //   //console.log("Station->",res.data.response)
-    // });
+    await api.getStatus().then((res) => {
+      this.setState({
+        demo: res.data.response.map((c) => {
+          return {
+            status_id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      //console.log("status->",res.data.response)
+    });
+    await api.getStatus().then((res) => {
+      this.setState({
+        dump: res.data.response.map((c) => {
+          return {
+            id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      //console.log("Station->",res.data.response)
+    });
   };
 
   render() {
-    const { config, data } = this.state;
+    const { config, data ,dump } = this.state;
+    console.log("dump data-> ",dump)
+    console.log("data data-> ",data)
     const {
       cycle_id,
       station_id,
@@ -203,35 +214,20 @@ class Dashboard extends Component {
           fontSize: 16,
         },
       },
-      // {
-      //   title: "Status Id",
-      //   field: "status_id",
-      //   value: status_id,
-      //   cellStyle: {
-      //     fontSize: 16,
-      //   },
-      // },
-      // {
-      //   title: "Status",
-      //   field: "status_id",
-      //   value: status_id,
-      //   lookup: dump.map((c) => (
-      //     <MenuItem key={c.status_id} value={c.status_id}>
-      //       {c.status}
-      //     </MenuItem>
-      //   )),
-      //   cellStyle: {
-      //     fontSize: 16,
-      //   },
-      // },
-      // {
-      //   title: "Station Id",
-      //   field: "station_id",
-      //   value: station_id,
-      //   cellStyle: {
-      //     fontSize: 16,
-      //   },
-      // },
+      {
+        title: "Availability Status",
+        field: "status_id",
+        value: status_id,
+        editable: 'onAdd',
+        lookup: dump.map((d) => (
+          <MenuItem key={d.id} value={d.id}>
+            {d.status}
+          </MenuItem>
+        )),
+        cellStyle: {
+          fontSize: 16,
+        },
+      },
       {
         title: "Move Station",
         field: "station_id",
@@ -346,16 +342,32 @@ class Dashboard extends Component {
           
         }}
         editable={{
-          onRowAdd: () =>
-            // api.insertConfig(newData).then((res) => {
-            //   window.alert(`Configuration inserted successfully`);
-            //   api.getAllConfigurations().then((res) => {
-                this.setState({
-                  //config: data,
-                  isLoading: false,
-                }),
-            //   });
-            // }),
+          onRowAdd: (newData, details = new FormData()) =>
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+            {
+              details.append("station_id", newData.station_id);
+              details.append("category", newData.category);
+              details.append("is_charging", newData.is_charging);
+              details.append("battery_percentage", newData.battery_percentage);
+              details.append("model_number", newData.model_number);
+              details.append("status_id", newData.status_id);
+              // for (var pair of details.entries()) {
+              //   console.log(pair[0]+ ', ' + pair[1]); 
+              // }
+              api.addCycle(details).then((res) => {
+                api.getCycle().then((res) => {
+                  this.setState({
+                    config: res.data.response,
+                    isLoading: true,
+                  });
+                });
+                window.alert("Added")
+              });
+            }
+            resolve()
+            }, 1000)
+          }),
           onRowUpdate: () =>
             // api.updateConfig(oldData.DatasetID, newData).then((res) => {
             //   window.alert(`Configuration Updated successfully`);
@@ -366,16 +378,29 @@ class Dashboard extends Component {
                 }),
             //   });
             // }),
-          onRowDelete: () =>
-            // api.deleteConfigByPort(oldData.DatasetID).then((res) => {
-            //   window.alert(`Configuration deleted successfully`);
-            //   api.getAllConfigurations().then((res) => {
-                this.setState({
-                  //config: data,
-                  isLoading: false,
-                }),
-            //   });
-            // }),
+          onRowDelete: (oldData, id = new FormData()) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+              {
+                id.append("cycle_id", oldData.cycle_id);
+                console.log(id);
+                api.deleteCycle(id).then((res) => {
+                  api.getCycle().then((res) => {
+                    this.setState({
+                      config: res.data.response,
+                      isLoading: true,
+                    });
+                  });
+                  window.alert("Deleted")
+                });
+              }
+              resolve()
+              }, 1000)
+            }),
+            //oldData.append('cycle_id', oldData.cycle_id)
+            //id = new FormData()
+            //id.append('cycle_id', oldData.cycle_id)
+            
         }}
       />
     );
