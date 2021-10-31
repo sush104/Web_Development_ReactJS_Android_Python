@@ -26,8 +26,9 @@ import Move from "@material-ui/icons/PanTool";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import RepairPage from "views/Repair/Repair.js";
-import Track from "views/Track/Map";
+import Track from "views/Track/Track";
 import MovePage from "views/Move/Move";
+
 
 const dashboardRoutes = [
   {

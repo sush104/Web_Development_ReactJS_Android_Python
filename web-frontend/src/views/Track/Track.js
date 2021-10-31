@@ -9,11 +9,20 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CancelIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
+import TrackIcon from "@material-ui/icons/Router";
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import MenuItem from "@material-ui/core/MenuItem";
 import { alpha } from '@material-ui/core/styles'
+import UserProfile from "views/UserProfile/UserProfile.js";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import Button from "components/CustomButtons/Button.js";
+import Card from "components/Card/Card.js";
+import CardAvatar from "components/Card/CardAvatar.js";
+import CardBody from "components/Card/CardBody.js";
 
+import avatar from "assets/img/faces/marc.jpg";
 // import styled from "styled-components";
 
 import MaterialTable from "material-table";
@@ -96,7 +105,7 @@ const classes = makeStyles((theme) => ({
 //   padding: 0 40px 40px 40px;
 // `;
 
-class Move extends Component {
+class Track extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,36 +122,37 @@ class Move extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
+    
     await api.getCycle().then((res) => {
       this.setState({
-        config: res.data.response,
-        isLoading: false,
+         config: res.data.response,
+         isLoading: false,
       })
-      //console.log("cycle->",res.data.response)
-    });
-    
+     //console.log(res.data.response)
+     });
+                
     await api.getStation().then((res) => {
       this.setState({
         data: res.data.response.map((c) => {
           return {
-            station_id: c.station_id,
+            id: c.station_id,
             address: c.address,
           };
         }),
       });
-      console.log("Station->",res.data.response)
+      //console.log("Station->",res.data.response)
     });
-    // await api.getStatus().then((res) => {
-    //   this.setState({
-    //     dump: res.data.response.map((c) => {
-    //       return {
-    //         id: c.status_id,
-    //         status: c.status,
-    //       };
-    //     }),
-    //   });
-    //   //console.log("Station->",res.data.response)
-    // });
+    await api.getStatus().then((res) => {
+      this.setState({
+        dump: res.data.response.map((c) => {
+          return {
+            id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      //console.log("Station->",res.data.response)
+    });
   };
 
   render() {
@@ -183,7 +193,6 @@ class Move extends Component {
         title: "Cycle category",
         field: "category",
         value: category,
-        editable: 'never',
         cellStyle: {
           fontSize: 16,
         },
@@ -191,8 +200,8 @@ class Move extends Component {
       {
         title: "Charging Status",
         field: "is_charging",
-        value: is_charging, 
-        editable: 'never',
+        value: is_charging,
+        editable: 'onUpdate',
         cellStyle: {
           fontSize: 16,
         },
@@ -201,39 +210,31 @@ class Move extends Component {
         title: "Battery Percentage",
         field: "battery_percentage",
         value: battery_percentage,
-        editable: 'never',
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      // {
-      //   title: "Availability Status",
-      //   field: "status_id",
-      //   value: status_id,
-      //   editable: 'never',
-      //   lookup: dump.map((d) => (
-      //     <MenuItem key={d.id} value={d.id}>
-      //       {d.status}
-      //     </MenuItem>
-      //   )),
-      //   cellStyle: {
-      //     fontSize: 16,
-      //   },
-      // },
-      {
-        title: "Station id",
-        field: "station_id",
-        value: station_id, 
+        editable: 'onUpdate',
         cellStyle: {
           fontSize: 16,
         },
       },
       {
-        title: "Move Station",
+        title: "Availability Status",
+        field: "status_id",
+        value: status_id,
+        editable: 'onUpdate',
+        lookup: dump.map((d) => (
+          <MenuItem key={d.id} value={d.id}>
+            {d.status}
+          </MenuItem>
+        )),
+        cellStyle: {
+          fontSize: 16,
+        },
+      },
+      {
+        title: "Station Name",
         field: "station_id",
         value: station_id,
         lookup: data.map((c) => (
-          <MenuItem key={c.station_id} value={c.station_id}>
+          <MenuItem key={c.id} value={c.id}>
             {c.address}
           </MenuItem>
         )), 
@@ -243,21 +244,91 @@ class Move extends Component {
       },
     ];
 
+    const alertMyRow = (selectedRow) => (
+        // here i can request something on my api with selectedRow.id to get additional
+        // datas which weren't displayed in the table
+        alert(`Model: ${selectedRow.model_number}, Station: ${selectedRow.station_id}`)
+      );
   
     return (
-
       <MaterialTable
         paging={false}
-        title="Move Bike"
+        onRowClick={(evt, selectedRow) => alertMyRow(selectedRow)}
+        title="Track Bike (Click on any row to track that bike)"
         columns={columns}
         data={config}
         // data ={[
         //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
         // ]}
+        detailPanel={[
+            {
+              icon: TrackIcon,  
+              tooltip: 'Track Bike',
+              render: rowData => {
+                try {
+                  setInterval(async () => {
+                      await api.getCycle().then((res) => {
+                          // this.setState({
+                          //   config: res.data.response,
+                          //   isLoading: false,
+                          // })
+                          rowData = res.data.response
+                          console.log("called")
+                        });
+                          }, 5000);
+                  } catch(e) {
+                          console.log(e);
+                   }
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'black',
+                    }}
+                  >
+                    <GridContainer justify="center">
+                        <GridItem xs={12} sm={12} md={4} align="center">
+                            <Card profile>
+                                    <CardBody profile>
+                                    {/* <h6 className={classes.cardCategory}>{rowData.model_number}</h6> */}
+                                    <h4 className={classes.cardTitle}>{rowData.cycle_id}</h4>
+                                    <p className={classes.description}>
+                                        Address: {rowData.model_number} 
+                                    </p>
+                                    <p className={classes.description}>
+                                        Latitude: {rowData.model_number}
+                                    </p>
+                                    <p className={classes.description}>
+                                        Longitude: {rowData.model_number}
+                                    </p>
+
+                                    <Button color="primary" round>
+                                        Follow
+                                    </Button>
+                                </CardBody>
+                            </Card>
+                        </GridItem>
+                    </GridContainer>
+                  </div>
+                )
+              },
+            },
+        ]}
         icons={{
+          Add: props => (
+            <div ref={AddIcon}>
+              <i className="fa fa-plus" />
+            </div>
+          ),
           Edit: props => (
             <div ref={EditIcon}>
-              <i className="fa fa-route"></i>
+              <i className="fa fa-pencil-alt"></i>
+            </div>
+          ),
+          Delete: props => (
+            <div ref={DeleteIcon}>
+              <i className="fa fa-trash"></i>
             </div>
           ),
           Clear: props => (
@@ -307,33 +378,10 @@ class Move extends Component {
           sorting: false,
           
         }}
-        editable={{
-          onRowUpdate: (oldData , newData, details = new FormData()) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-            {
-              details.append("cycle_id", newData.cycle_id);
-              details.append("station_id", newData.station_id);
-              for (var pair of details.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-              }
-              api.moveCycle(details).then((res) => {
-                api.getCycle().then((res) => {
-                  this.setState({
-                    config: res.data.response,
-                    isLoading: true,
-                  });
-                });
-                window.alert("Moved")
-              });
-            }
-            resolve()
-            }, 1000)
-          }),
-        }}
       />
+      
     );
   }
 }
 
-export default withRouter(Move);
+export default withRouter(Track);
