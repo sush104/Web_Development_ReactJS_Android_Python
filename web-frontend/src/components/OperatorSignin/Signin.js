@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import api from "../../api/api";
 import cyclepng from "../../assets/img/cyclejpg.jpg"
+import ls from 'local-storage'
 
 function Copyright(props) {
   return (
@@ -34,25 +35,26 @@ export default function Signin() {
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    //const data = new FormData(event.currentTarget);
-    const data = new FormData();
-    data.append('email', 'martin.heidegger@gmail.com');
-    data.append('hashed_password', 'Pass@123');
+    const data = new FormData(event.currentTarget);
+    //const data = new FormData();
+    data.append('email', data.get('email'));
+    data.append('hashed_password', data.get('password'));
     
     console.log(data);
 
     api.login(data).then((res) => {
       console.log(res.data)
-      // if(res.data.Message == "")
-      //   {
-      //     this.props.history.push('/admin/dashboard')
-      //     location.href = '/admin/dashboard'
-      //   }
-      // else
-      //   this.props.history.push('/signin')
+      if(res.data.status.error_code == 0)
+        {
+          //this.props.history.push('/admin/dashboard')
+          ls.set('token', res.data.response.access_token);
+          ls.set('email', 'martin.heidegger@gmail.com');
+          location.href = '/admin/dashboard'
+          //console.log(ls.get('email'))          
+        }
     });
     
-    location.href = '/admin/dashboard'
+    //location.href = '/admin/dashboard'
   };
 
   return (
