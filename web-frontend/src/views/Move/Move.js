@@ -125,8 +125,8 @@ class Move extends Component {
       this.setState({
         data: res.data.response.map((c) => {
           return {
-            station_id: c.station_id,
-            address: c.address,
+            id: c.station_id,
+            station: c.address,
           };
         }),
       });
@@ -221,20 +221,12 @@ class Move extends Component {
       //   },
       // },
       {
-        title: "Station id",
-        field: "station_id",
-        value: station_id, 
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      {
         title: "Move Station",
         field: "station_id",
         value: station_id,
         lookup: data.map((c) => (
-          <MenuItem key={c.station_id} value={c.station_id}>
-            {c.address}
+          <MenuItem key={c.id} value={c.id}>
+            {c.station}
           </MenuItem>
         )), 
         cellStyle: {
@@ -308,16 +300,16 @@ class Move extends Component {
           
         }}
         editable={{
-          onRowUpdate: (oldData , newData, details = new FormData()) =>
+          onRowUpdate: (newData ,oldData, moveDetails = new FormData()) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
             {
-              details.append("cycle_id", newData.cycle_id);
-              details.append("station_id", newData.station_id);
-              for (var pair of details.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
+              moveDetails.append("cycle_id", oldData.cycle_id);
+              moveDetails.append("station_id", newData.station_id);
+              for (var pair of moveDetails.entries()) {
+                console.log("NewData->",pair[0]+ ', ' + pair[1]); 
               }
-              api.moveCycle(details).then((res) => {
+              api.moveCycle(moveDetails).then((res) => {
                 api.getCycle().then((res) => {
                   this.setState({
                     config: res.data.response,
@@ -337,3 +329,6 @@ class Move extends Component {
 }
 
 export default withRouter(Move);
+
+
+
