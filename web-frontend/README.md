@@ -45,6 +45,8 @@ material-dashboard-react
     ├── index.js
     ├── logo.svg
     ├── routes.js
+    ├── api
+    │   ├── api.js
     ├── assets
     │   ├── css
     │   │   └── material-dashboard-react.css
@@ -80,10 +82,14 @@ material-dashboard-react
     │   ├── Grid
     │   │   ├── GridContainer.js
     │   │   └── GridItem.js
+    |    ├── ManagerSignin
+    │   │   └── Signin.js   
     │   ├── Navbars
     │   │   ├── AdminNavbarLinks.js
     │   │   ├── Navbar.js
     │   │   └── RTLNavbarLinks.js
+    |   ├── OperatorSignin
+    │   │   └── Signin.js 
     │   ├── Sidebar
     │   │   └── Sidebar.js
     │   ├── Snackbar
@@ -103,7 +109,10 @@ material-dashboard-react
     │       └── Warning.js
     ├── layouts
     │   ├── Admin.js
+    |   ├── Manager.js
     │   └── RTL.js
+    ├── utils
+    │   ├── index.js
     ├── variables
     │   ├── charts.js
     │   └── general.js
@@ -112,13 +121,24 @@ material-dashboard-react
         │   └── Dashboard.js
         ├── Icons
         │   └── Icons.js
-        ├── Maps
-        │   └── Maps.js
+        ├── ManagerDashboard
+        │   └── Dashboard.js
+        ├── ManagerReports
+        │   └── BarChart.js
+        │   └── LineChart.js
+        │   └── ManagerReports.js
+        │   └── PieChart.js
+        ├── Move
+        │   └── Move.js
         ├── Notifications
         │   └── Notifications.js
+        ├── Repair
+        │   └── Repair.js
         ├── RTLPage
         │   └── RTLPage.js
         ├── TableList
+        │   └── TableList.js
+        ├── Track
         │   └── TableList.js
         ├── Typography
         │   └── Typography.js
