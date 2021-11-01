@@ -128,7 +128,7 @@ class Dashboard extends Component {
           return {
             id: c.station_id,
             station: c.address,
-          };
+          }; 
         }),
       })
     });

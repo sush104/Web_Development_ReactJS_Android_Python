@@ -112,6 +112,7 @@ class Track extends Component {
       config: [],
       data: [],
       dump: [],
+      trip:[],
       columns: [],
       connection: [],
       isLoading: true,
@@ -123,7 +124,7 @@ class Track extends Component {
     this.setState({ isLoading: true });
 
     
-    await api.getCycle().then((res) => {
+    await api.showActiveCycles().then((res) => {
       this.setState({
          config: res.data.response,
          isLoading: false,
@@ -151,14 +152,14 @@ class Track extends Component {
           };
         }),
       });
-      //console.log("Station->",res.data.response)
+      //console.log("Status->",res.data.response)
     });
   };
 
   render() {
-    const { config, data ,dump } = this.state;
-    console.log("dump data-> ",dump)
-    console.log("data data-> ",data)
+    const { config, data ,dump, trip } = this.state;
+    // console.log("dump data-> ",dump)
+    // console.log("data data-> ",data)
     const {
       cycle_id,
       station_id,
@@ -167,6 +168,9 @@ class Track extends Component {
       battery_percentage,
       model_number,
       status_id,
+      address,
+      location_lat,
+      location_long,
     } = this.state;
 
     const payload = {
@@ -215,20 +219,19 @@ class Track extends Component {
           fontSize: 16,
         },
       },
-      {
-        title: "Availability Status",
-        field: "status_id",
-        value: status_id,
-        editable: 'onUpdate',
-        lookup: dump.map((d) => (
-          <MenuItem key={d.id} value={d.id}>
-            {d.status}
-          </MenuItem>
-        )),
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
+      // {
+      //   title: "Availability Status",
+      //   field: "status_id",
+      //   value: status_id,
+      //   lookup: dump.map((d) => (
+      //     <MenuItem key={d.id} value={d.id}>
+      //       {d.status}
+      //     </MenuItem>
+      //   )),
+      //   cellStyle: {
+      //     fontSize: 16,
+      //   },
+      // },
       {
         title: "Station Name",
         field: "station_id",
@@ -244,16 +247,16 @@ class Track extends Component {
       },
     ];
 
-    const alertMyRow = (selectedRow) => (
-        // here i can request something on my api with selectedRow.id to get additional
-        // datas which weren't displayed in the table
-        alert(`Model: ${selectedRow.model_number}, Station: ${selectedRow.station_id}`)
-      );
+    // const alertMyRow = (selectedRow) => (
+    //     // here i can request something on my api with selectedRow.id to get additional
+    //     // datas which weren't displayed in the table
+    //     alert(`Model: ${selectedRow.model_number}, Station: ${selectedRow.station_id}`)
+    //   );
   
     return (
       <MaterialTable
         paging={false}
-        onRowClick={(evt, selectedRow) => alertMyRow(selectedRow)}
+        //onRowClick={(evt, selectedRow) => alertMyRow(selectedRow)}
         title="Track Bike (Click on any row to track that bike)"
         columns={columns}
         data={config}
@@ -264,21 +267,47 @@ class Track extends Component {
             {
               icon: TrackIcon,  
               tooltip: 'Track Bike',
-              render: rowData => {
-                try {
-                  setInterval(async () => {
-                      await api.getCycle().then((res) => {
-                          // this.setState({
-                          //   config: res.data.response,
-                          //   isLoading: false,
-                          // })
-                          rowData = res.data.response
-                          console.log("called")
-                        });
-                          }, 5000);
-                  } catch(e) {
-                          console.log(e);
-                   }
+              render: (rowData) => {
+                // try {
+                //   setInterval(async () => {
+                //     const {trip} = this.state;
+                //     const cycle_id = new FormData()
+                //     cycle_id.append("cycle_id", rowData.cycle_id)
+                //     // for (var pair of cycle_id.entries()) {
+                //     //   console.log(pair[0]+ ', ' + pair[1]); 
+                //     // }
+                //     api.showActiveTripDetails(cycle_id).then((res) => {
+                //       //console.log("Data")
+                //       //console.log("trip->",res.data.response)
+                //      this.setState({
+                //       trip: res.data.response
+                //      })
+                //        //console.log(trip)
+                //     });
+
+                //   }, 5000);
+                //   } catch(e) {
+                //          console.log(e);
+                //   }
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                    {
+                      const {trip} = this.state;
+                      const cycle_id = new FormData()
+                      cycle_id.append("cycle_id", rowData.cycle_id);
+                      for (var pair of cycle_id.entries()) {
+                        console.log(pair[0]+ ', ' + pair[1]); 
+                      }
+                      api.showActiveTripDetails(cycle_id).then((res) => {
+                          this.setState({
+                            trip: res.data.response,
+                            isLoading: true,
+                          });
+                      });
+                    }
+                    resolve()
+                    }, 1000)
+                  })
                 return (
                   <div
                     style={{
@@ -294,18 +323,17 @@ class Track extends Component {
                                     {/* <h6 className={classes.cardCategory}>{rowData.model_number}</h6> */}
                                     <h4 className={classes.cardTitle}>{rowData.cycle_id}</h4>
                                     <p className={classes.description}>
-                                        Address: {rowData.model_number} 
+                                        Address: {trip.address} 
                                     </p>
                                     <p className={classes.description}>
-                                        Latitude: {rowData.model_number}
+                                        Latitude: {trip.location_lat}
                                     </p>
                                     <p className={classes.description}>
-                                        Longitude: {rowData.model_number}
+                                        Longitude: {trip.location_long}
                                     </p>
-
-                                    <Button color="primary" round>
-                                        Follow
-                                    </Button>
+                                    <p className={classes.description}>
+                                        Trip Start Time: {trip.started_at}
+                                    </p>
                                 </CardBody>
                             </Card>
                         </GridItem>

@@ -74,5 +74,18 @@ export default {
         url: 'cycles/repairstatus',
         data: cycleid,
         headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showActiveCycles : () =>
+    instance({
+        method: 'GET',
+        url: '/cycles/showactive',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showActiveTripDetails: (cycle_id) =>
+    instance({
+        method: 'POST',
+        url: '/cycles/activetripdetails',
+        data: cycle_id,
+        headers: { "Content-Type": "multipart/form-data" },
     })
 }
