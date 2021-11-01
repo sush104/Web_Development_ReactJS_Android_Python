@@ -17,25 +17,11 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
-import Location from "@material-ui/icons/Room";
-import Settings from "@material-ui/icons/Settings";
-
 // core components/views for Admin layout
-import ManagerDashboardPage from "views/ManagerDashboard/Dashboard.js";
 import ManagerReports from "views/ManagerReports/ManagerReports";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/Repair/Repair.js";
-import Track from "views/Track/Map";
+
 
 const managerDashboardRoutes = [
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: Dashboard,
-    component: ManagerDashboardPage,
-    layout: "/manager",
-  },
   {
     path: "/reports",
     name: "View Reports",

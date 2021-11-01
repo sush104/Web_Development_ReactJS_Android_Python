@@ -33,7 +33,7 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/manager" to="/manager/dashboard" />
+    <Redirect from="/manager" to="/manager/reports" />
   </Switch>
 );
 

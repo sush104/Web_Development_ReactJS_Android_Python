@@ -26,7 +26,7 @@ ReactDOM.render(
   <Router>
       <Router>
         <Route component={OperatorSignin} path="/operatorsignin" exact />
-        <Route component={ManagerSignin} path="/managersignin" />
+        <Route component={ManagerSignin} path="/managersignin" exact />
         <Route path="/admin" component={Admin} />
         <Route path="/manager" component={Manager}  />  
           </Router>
