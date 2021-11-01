@@ -40,7 +40,7 @@ const managerDashboardRoutes = [
     path: "/reports",
     name: "View Reports",
     icon: Dashboard,
-    component: ManagerDashboardPage,
+    component: ManagerReports,
     layout: "/manager",
   }
 ];

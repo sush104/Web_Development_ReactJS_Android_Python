@@ -118,36 +118,38 @@ class Dashboard extends Component {
         config: res.data.response,
         isLoading: false,
       })
-      //console.log(res.data.response)
+      console.log("Cycle->",res.data.response)
     });
     
     await api.getStation().then((res) => {
+      //console.log("Station->",res.data.response)
       this.setState({
         data: res.data.response.map((c) => {
           return {
             id: c.station_id,
-            address: c.address,
-          };
+            station: c.address,
+          }; 
         }),
-      });
-      //console.log("Station->",res.data.response)
+      })
     });
-    await api.getStatus().then((res) => {
-      this.setState({
-        dump: res.data.response.map((c) => {
-          return {
-            id: c.status_id,
-            status: c.status,
-          };
-        }),
-      });
+    
       //console.log("Station->",res.data.response)
-    });
+    // await api.getStatus().then((res) => {
+    //   this.setState({
+    //     dump: res.data.response.map((c) => {
+    //       return {
+    //         id: c.status_id,
+    //         status: c.status,
+    //       };
+    //     }),
+    //   });
+    //   //console.log("Station->",res.data.response)
+    // });
   };
 
   render() {
     const { config, data ,dump } = this.state;
-    console.log("dump data-> ",dump)
+    //console.log("dump data-> ",dump)
     console.log("data data-> ",data)
     const {
       cycle_id,
@@ -206,15 +208,10 @@ class Dashboard extends Component {
         },
       },
       {
-        title: "Availability Status",
-        field: "status_id",
-        value: status_id,
+        title: "station id",
+        field: "station_id",
+        value: station_id,
         editable: 'onUpdate',
-        lookup: dump.map((d) => (
-          <MenuItem key={d.id} value={d.id}>
-            {d.status}
-          </MenuItem>
-        )),
         cellStyle: {
           fontSize: 16,
         },
@@ -224,8 +221,8 @@ class Dashboard extends Component {
         field: "station_id",
         value: station_id,
         lookup: data.map((c) => (
-          <MenuItem key={c.id} value={c.id}>
-            {c.address}
+          <MenuItem key={c.station_id} value={c.station_id}>
+            {c.station}
           </MenuItem>
         )), 
         cellStyle: {
@@ -336,7 +333,7 @@ class Dashboard extends Component {
               setTimeout(() => {
               {
                 id.append("cycle_id", oldData.cycle_id);
-                console.log(id);
+                //console.log(id);
                 api.deleteCycle(id).then((res) => {
                   api.getCycle().then((res) => {
                     this.setState({
@@ -350,10 +347,6 @@ class Dashboard extends Component {
               resolve()
               }, 1000)
             }),
-            //oldData.append('cycle_id', oldData.cycle_id)
-            //id = new FormData()
-            //id.append('cycle_id', oldData.cycle_id)
-            
         }}
       />
     );

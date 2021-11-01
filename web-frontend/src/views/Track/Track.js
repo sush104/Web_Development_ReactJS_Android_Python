@@ -9,11 +9,20 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CancelIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
+import TrackIcon from "@material-ui/icons/Router";
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import MenuItem from "@material-ui/core/MenuItem";
 import { alpha } from '@material-ui/core/styles'
+import UserProfile from "views/UserProfile/UserProfile.js";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import Button from "components/CustomButtons/Button.js";
+import Card from "components/Card/Card.js";
+import CardAvatar from "components/Card/CardAvatar.js";
+import CardBody from "components/Card/CardBody.js";
 
+import avatar from "assets/img/faces/marc.jpg";
 // import styled from "styled-components";
 
 import MaterialTable from "material-table";
@@ -96,13 +105,14 @@ const classes = makeStyles((theme) => ({
 //   padding: 0 40px 40px 40px;
 // `;
 
-class Move extends Component {
+class Track extends Component {
   constructor(props) {
     super(props);
     this.state = {
       config: [],
       data: [],
       dump: [],
+      trip:[],
       columns: [],
       connection: [],
       isLoading: true,
@@ -113,42 +123,43 @@ class Move extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
-    await api.getCycle().then((res) => {
-      this.setState({
-        config: res.data.response,
-        isLoading: false,
-      })
-      //console.log("cycle->",res.data.response)
-    });
     
+    await api.showActiveCycles().then((res) => {
+      this.setState({
+         config: res.data.response,
+         isLoading: false,
+      })
+     //console.log(res.data.response)
+     });
+                
     await api.getStation().then((res) => {
       this.setState({
         data: res.data.response.map((c) => {
           return {
-            station_id: c.station_id,
+            id: c.station_id,
             address: c.address,
           };
         }),
       });
-      console.log("Station->",res.data.response)
+      //console.log("Station->",res.data.response)
     });
-    // await api.getStatus().then((res) => {
-    //   this.setState({
-    //     dump: res.data.response.map((c) => {
-    //       return {
-    //         id: c.status_id,
-    //         status: c.status,
-    //       };
-    //     }),
-    //   });
-    //   //console.log("Station->",res.data.response)
-    // });
+    await api.getStatus().then((res) => {
+      this.setState({
+        dump: res.data.response.map((c) => {
+          return {
+            id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      //console.log("Status->",res.data.response)
+    });
   };
 
   render() {
-    const { config, data ,dump } = this.state;
-    console.log("dump data-> ",dump)
-    console.log("data data-> ",data)
+    const { config, data ,dump, trip } = this.state;
+    // console.log("dump data-> ",dump)
+    // console.log("data data-> ",data)
     const {
       cycle_id,
       station_id,
@@ -157,6 +168,9 @@ class Move extends Component {
       battery_percentage,
       model_number,
       status_id,
+      address,
+      location_lat,
+      location_long,
     } = this.state;
 
     const payload = {
@@ -183,7 +197,6 @@ class Move extends Component {
         title: "Cycle category",
         field: "category",
         value: category,
-        editable: 'never',
         cellStyle: {
           fontSize: 16,
         },
@@ -191,8 +204,8 @@ class Move extends Component {
       {
         title: "Charging Status",
         field: "is_charging",
-        value: is_charging, 
-        editable: 'never',
+        value: is_charging,
+        editable: 'onUpdate',
         cellStyle: {
           fontSize: 16,
         },
@@ -201,7 +214,7 @@ class Move extends Component {
         title: "Battery Percentage",
         field: "battery_percentage",
         value: battery_percentage,
-        editable: 'never',
+        editable: 'onUpdate',
         cellStyle: {
           fontSize: 16,
         },
@@ -210,7 +223,6 @@ class Move extends Component {
       //   title: "Availability Status",
       //   field: "status_id",
       //   value: status_id,
-      //   editable: 'never',
       //   lookup: dump.map((d) => (
       //     <MenuItem key={d.id} value={d.id}>
       //       {d.status}
@@ -221,19 +233,11 @@ class Move extends Component {
       //   },
       // },
       {
-        title: "Station id",
-        field: "station_id",
-        value: station_id, 
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      {
-        title: "Move Station",
+        title: "Station Name",
         field: "station_id",
         value: station_id,
         lookup: data.map((c) => (
-          <MenuItem key={c.station_id} value={c.station_id}>
+          <MenuItem key={c.id} value={c.id}>
             {c.address}
           </MenuItem>
         )), 
@@ -243,21 +247,116 @@ class Move extends Component {
       },
     ];
 
+    // const alertMyRow = (selectedRow) => (
+    //     // here i can request something on my api with selectedRow.id to get additional
+    //     // datas which weren't displayed in the table
+    //     alert(`Model: ${selectedRow.model_number}, Station: ${selectedRow.station_id}`)
+    //   );
   
     return (
-
       <MaterialTable
         paging={false}
-        title="Move Bike"
+        //onRowClick={(evt, selectedRow) => alertMyRow(selectedRow)}
+        title="Track Bike (Click on any row to track that bike)"
         columns={columns}
         data={config}
         // data ={[
         //    {BikeName: 'MountainRainger',BikeID: 1, BikeLoc: 'UofG', BikeOwner: "Sushant", BikeProblem: "Punctured rear tyre", RepairStatus: "Repaired" },
         // ]}
+        detailPanel={[
+            {
+              icon: TrackIcon,  
+              tooltip: 'Track Bike',
+              render: (rowData) => {
+                // try {
+                //   setInterval(async () => {
+                //     const {trip} = this.state;
+                //     const cycle_id = new FormData()
+                //     cycle_id.append("cycle_id", rowData.cycle_id)
+                //     // for (var pair of cycle_id.entries()) {
+                //     //   console.log(pair[0]+ ', ' + pair[1]); 
+                //     // }
+                //     api.showActiveTripDetails(cycle_id).then((res) => {
+                //       //console.log("Data")
+                //       //console.log("trip->",res.data.response)
+                //      this.setState({
+                //       trip: res.data.response
+                //      })
+                //        //console.log(trip)
+                //     });
+
+                //   }, 5000);
+                //   } catch(e) {
+                //          console.log(e);
+                //   }
+                  new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                    {
+                      const {trip} = this.state;
+                      const cycle_id = new FormData()
+                      cycle_id.append("cycle_id", rowData.cycle_id);
+                      for (var pair of cycle_id.entries()) {
+                        console.log(pair[0]+ ', ' + pair[1]); 
+                      }
+                      api.showActiveTripDetails(cycle_id).then((res) => {
+                          this.setState({
+                            trip: res.data.response,
+                            isLoading: true,
+                          });
+                      });
+                    }
+                    resolve()
+                    }, 1000)
+                  })
+                return (
+                  <div
+                    style={{
+                      fontSize: 100,
+                      textAlign: 'center',
+                      color: 'black',
+                    }}
+                  >
+                    <GridContainer justify="center">
+                        <GridItem xs={12} sm={12} md={4} align="center">
+                            <Card profile>
+                                    <CardBody profile>
+                                    {/* <h6 className={classes.cardCategory}>{rowData.model_number}</h6> */}
+                                    <h4 className={classes.cardTitle}>{rowData.cycle_id}</h4>
+                                    <p className={classes.description}>
+                                        Address: {trip.address} 
+                                    </p>
+                                    <p className={classes.description}>
+                                        Latitude: {trip.location_lat}
+                                    </p>
+                                    <p className={classes.description}>
+                                        Longitude: {trip.location_long}
+                                    </p>
+                                    <p className={classes.description}>
+                                        Trip Start Time: {trip.started_at}
+                                    </p>
+                                </CardBody>
+                            </Card>
+                        </GridItem>
+                    </GridContainer>
+                  </div>
+                )
+              },
+            },
+        ]}
         icons={{
+          Add: props => (
+            <div ref={AddIcon}>
+              <i className="fa fa-plus" />
+            </div>
+          ),
           Edit: props => (
             <div ref={EditIcon}>
-              <i className="fa fa-route"></i>
+              <i className="fa fa-pencil-alt"></i>
+            </div>
+          ),
+          Delete: props => (
+            <div ref={DeleteIcon}>
+              <i className="fa fa-trash"></i>
             </div>
           ),
           Clear: props => (
@@ -307,33 +406,10 @@ class Move extends Component {
           sorting: false,
           
         }}
-        editable={{
-          onRowUpdate: (oldData , newData, details = new FormData()) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-            {
-              details.append("cycle_id", newData.cycle_id);
-              details.append("station_id", newData.station_id);
-              for (var pair of details.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-              }
-              api.moveCycle(details).then((res) => {
-                api.getCycle().then((res) => {
-                  this.setState({
-                    config: res.data.response,
-                    isLoading: true,
-                  });
-                });
-                window.alert("Moved")
-              });
-            }
-            resolve()
-            }, 1000)
-          }),
-        }}
       />
+      
     );
   }
 }
 
-export default withRouter(Move);
+export default withRouter(Track);

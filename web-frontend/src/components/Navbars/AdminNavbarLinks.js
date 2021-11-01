@@ -16,6 +16,8 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
+import api from "../../api/api";
+import ls from 'local-storage'
 
 import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
 
@@ -35,7 +37,24 @@ export default function AdminNavbarLinks() {
     setOpenProfile(null);
   };
   const handleLogout = () => {
-    location.href = '/signin';
+
+
+    const data = new FormData();
+    //const data = new FormData();
+    data.append('email', ls.get('email') || [] );
+    data.append('access_token', ls.get('token')  || [] );
+    
+    api.logout(data).then((res) => {
+      console.log(res.data)
+      if(res.data.error_code == 0)
+        {
+          //this.props.history.push('/admin/dashboard')
+          location.href = '/operatorsignin'
+        }
+      else
+      location.href = '/admin/dashboard'
+    });
+    //location.href = '/signin';
   };
   return (
     <div>
