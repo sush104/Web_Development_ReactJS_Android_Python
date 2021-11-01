@@ -30,13 +30,6 @@ import Track from "views/Track/Map";
 
 const managerDashboardRoutes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: Dashboard,
-    component: ManagerDashboardPage,
-    layout: "/manager",
-  },
-  {
     path: "/reports",
     name: "View Reports",
     icon: Dashboard,
