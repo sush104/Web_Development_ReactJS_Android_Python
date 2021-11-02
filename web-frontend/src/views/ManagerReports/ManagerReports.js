@@ -55,7 +55,7 @@ export default function Dashboard() {
               <Bar />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Rented Cycles/Month</h4>
+              <h4 className={classes.cardTitle}>All cycles/Station</h4>
               {/* <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
@@ -76,7 +76,7 @@ export default function Dashboard() {
               <Pie />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Revenue Generated/Stand</h4>
+              <h4 className={classes.cardTitle}>All cycles by Status</h4>
             </CardBody>
           </Card>
         </GridItem>

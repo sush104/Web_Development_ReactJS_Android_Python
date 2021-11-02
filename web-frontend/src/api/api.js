@@ -87,5 +87,17 @@ export default {
         url: '/cycles/activetripdetails',
         data: cycle_id,
         headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showPieChart : () => 
+    instance({
+        method: 'GET',
+        url: '/managers/showpie',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showBarChart : () => 
+    instance({
+        method: 'GET',
+        url: '/managers/showstatbar',
+        headers: { "Content-Type": "multipart/form-data" },
     })
 }
