@@ -20,12 +20,12 @@ Quick start options:
 - You should see the web application running on `http://localhost:3000/operatorsignin`
 ## Important Credentials
 
-Operator Details : 
--    Email:      carl.jung@gmail.com
--    Password:   Pass@123
-Manager Details:
--    Email:      manager@bikez.com
--    Password:   Pass@123
+- Operator Details : 
+    Email:      carl.jung@gmail.com
+    Password:   Pass@123
+- Manager Details:
+    Email:      manager@bikez.com
+    Password:   Pass@123
 ## File Structure
 
 Within the download you'll find the following directories and files:
