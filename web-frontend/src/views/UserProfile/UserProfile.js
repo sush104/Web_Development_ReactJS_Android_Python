@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -8,8 +8,9 @@ import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
-
+import api from "../../api/api";
 import avatar from "assets/img/faces/marc.jpg";
+import ls from 'local-storage'
 
 const styles = {
   cardCategoryWhite: {
@@ -30,9 +31,33 @@ const styles = {
   },
 };
 
+
+
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
+
+  
+const [fname, setFName] = useState()
+const [lname, setLName] = useState()
+const [email, setEmail] = useState()
+const [phone, setPhone] = useState()
+
+useEffect(() => {
+
+  const id = new FormData()
+  id.append("id", ls.get('id'));
+  api.operatorDetails(id).then((res) => {
+    
+    setFName(res.data.response.first_name)
+    setLName(res.data.response.last_name)
+    setEmail(res.data.response.email)
+    setPhone(res.data.response.phone)
+    //console.log("Pie",chartData)
+  });
+},[]);
+  
+
   const classes = useStyles();
   return (
     <div>
@@ -45,16 +70,10 @@ export default function UserProfile() {
               </a>
             </CardAvatar>
             <CardBody profile>
-              <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
-              <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
-              </p>
-              <Button color="primary" round>
-                Follow
-              </Button>
+              <h6 className={classes.cardCategory}>Designation: Operator</h6>
+              <h4 className={classes.cardTitle}>Name: {fname} {lname}</h4>
+              <h5 className={classes.cardTitle}>Email: {email} </h5>
+              <h5 className={classes.cardTitle}>Phone: {phone} </h5>
             </CardBody>
           </Card>
         </GridItem>

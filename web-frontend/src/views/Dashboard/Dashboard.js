@@ -208,10 +208,15 @@ class Dashboard extends Component {
         },
       },
       {
-        title: "station id",
-        field: "station_id",
-        value: station_id,
+        title: "Availability",
+        field: "status_id",
+        value: status_id,
         editable: 'onUpdate',
+        lookup: dump.map((c) => (
+          <MenuItem key={c.id} value={c.id}>
+            {c.status}
+          </MenuItem>
+        )), 
         cellStyle: {
           fontSize: 16,
         },

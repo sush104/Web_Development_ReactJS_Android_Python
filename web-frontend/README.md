@@ -3,6 +3,7 @@ Special thanks go to:
 
 ## Table of Contents
 * [Quick Start](#quick-start)
+* [Important Credentials](#important-credentials)
 * [File Structure](#file-structure)
 * [Browser Support](#browser-support)
 * [Licensing](#licensing)
@@ -15,6 +16,15 @@ Quick start options:
 - Clone the repo: `git clone https://github.com/creativetimofficial/material-dashboard-react.git`.
 - `npm i material-dashboard-react`
 - `npm start`
+
+## Important Credentials
+
+- Operator Details : 
+    Email:      carl.jung@gmail.com
+    Password:   Pass@123
+- Manager Details:
+    Email:      manager@bikez.com
+    Password:   Pass@123
 ## File Structure
 
 Within the download you'll find the following directories and files:

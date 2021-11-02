@@ -33,13 +33,13 @@ const data = {
   datasets: [{
     data: [one, two, three],
     backgroundColor: [
+    '#00D100',
     '#FF6384',
-    '#36A2EB',
     '#FFCE56'
     ],
     hoverBackgroundColor: [
+    '#00D100',
     '#FF6384',
-    '#36A2EB',
     '#FFCE56'
     ]
   }]
