@@ -13,10 +13,11 @@ Special thanks go to:
 
 Quick start options:
 
-- Clone the repo: `git clone https://github.com/creativetimofficial/material-dashboard-react.git`.
+- Clone the repo: `git clone https://stgit.dcs.gla.ac.uk/programming-and-systems-development-m/2021/f-lb1-team9/bikeez-client-website.git`.
 - `npm i material-dashboard-react`
+- `npm install`
 - `npm start`
-
+- You should see the web application running on `http://localhost:3000/operatorsignin`
 ## Important Credentials
 
 - Operator Details : 
