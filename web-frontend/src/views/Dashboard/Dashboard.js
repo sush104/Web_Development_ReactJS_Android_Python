@@ -134,17 +134,17 @@ class Dashboard extends Component {
     });
     
       //console.log("Station->",res.data.response)
-    // await api.getStatus().then((res) => {
-    //   this.setState({
-    //     dump: res.data.response.map((c) => {
-    //       return {
-    //         id: c.status_id,
-    //         status: c.status,
-    //       };
-    //     }),
-    //   });
-    //   //console.log("Station->",res.data.response)
-    // });
+    await api.getStatus().then((res) => {
+      this.setState({
+        dump: res.data.response.map((c) => {
+          return {
+            id: c.status_id,
+            status: c.status,
+          };
+        }),
+      });
+      console.log("Status->",res.data.response)
+    });
   };
 
   render() {
@@ -212,6 +212,19 @@ class Dashboard extends Component {
         field: "station_id",
         value: station_id,
         editable: 'onUpdate',
+        cellStyle: {
+          fontSize: 16,
+        },
+      },
+      {
+        title: "Availability",
+        field: "status_id",
+        value: status_id,
+        // lookup: data.map((c) => (
+        //   <MenuItem key={c.station_id} value={c.station_id}>
+        //     {c.station}
+        //   </MenuItem>
+        // )), 
         cellStyle: {
           fontSize: 16,
         },

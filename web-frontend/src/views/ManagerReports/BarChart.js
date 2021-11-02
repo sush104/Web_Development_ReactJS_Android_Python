@@ -1,20 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Bar} from 'react-chartjs-2';
+import api from "../../api/api";
+
+function BarChart() {
+
+  const [pieData, setPieData] = useState()
+  const [one, setOne] = useState()
+  const [two, setTwo] = useState()
+  const [three, setThree] = useState()
+
+useEffect(() => {
+  
+  api.showBarChart().then((res) => {
+    
+    setOne(res.data.response[0])
+    setTwo(res.data.response[1])
+    setThree(res.data.response[2])
+    //console.log("Pie",chartData)
+  });
+},[]);
+
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ['Byres Road', 'Partik', 'Warehouse'],
   datasets: [
     {
-      label: 'Rented cycles/month',
+      label: 'No of Cycle(s)',
       backgroundColor: 'rgba(255,99,132,0.2)',
       borderColor: 'rgba(255,99,132,1)',
       borderWidth: 1,
       hoverBackgroundColor: 'rgba(255,99,132,0.4)',
       hoverBorderColor: 'rgba(255,99,132,1)',
-      data: [65, 59, 80, 81, 56, 55, 40]
+      data: [one, two, three]
     }
   ]
 };
-function BarChart() {
+
   return (
     <div>
         <Bar
