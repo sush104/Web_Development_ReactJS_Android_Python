@@ -33,26 +33,30 @@ const theme = createTheme();
 export default function Signin() {
   const handleSubmit = (event) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    // const data = new FormData();
+    // data.append('email', 'manager@bikez.com');
+    // data.append('hashed_password', 'Pass@123');
     
-    //const data = new FormData(event.currentTarget);
-    const data = new FormData();
-    data.append('email', 'martin.heidegger@gmail.com');
-    data.append('hashed_password', 'Pass@123');
-    
-    console.log(data);
+    //console.log(data);
 
-    api.login(data).then((res) => {
-      console.log(res.data)
-      // if(res.data.Message == "")
-      //   {
-      //     this.props.history.push('/admin/dashboard')
-      //     location.href = '/admin/dashboard'
-      //   }
-      // else
-      //   this.props.history.push('/signin')
-    });
+    if(data.get('email') == "manager@bikez.com"  && data.get('password') == 'Pass@123')
+    {
+      //this.props.history.push('/admin/dashboard')
+      location.href = '/manager'
+    }
+    else
+    {
+      window.alert("Login Unsuccessful, Try agian!")
+    }
     
-    location.href = '/manager/dashboard'
+    
+    // api.login(data).then((res) => {
+    //   console.log(res.data)
+     
+    // });
+    
+    //location.href = '/manager/dashboard'
   };
 
   return (

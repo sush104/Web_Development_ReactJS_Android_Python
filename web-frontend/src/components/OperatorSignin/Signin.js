@@ -52,6 +52,9 @@ export default function Signin() {
           location.href = '/admin/dashboard'
           //console.log(ls.get('email'))          
         }
+      else if(res.data.error_code == 4){
+        window.alert("Login Unsuccessfull, Try again!")
+      }  
     });
     
     //location.href = '/admin/dashboard'
