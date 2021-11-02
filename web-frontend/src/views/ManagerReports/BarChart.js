@@ -44,7 +44,14 @@ const data = {
           options={{
             responsive: true,
             maintainAspectRatio: true,
+            scales: {
+              y: {
+                  suggestedMin: 0,
+                  suggestedMax: 10,
+              }
+            },
           }}
+          
         />
     </div>
   );
