@@ -99,5 +99,12 @@ export default {
         method: 'GET',
         url: '/managers/showstatbar',
         headers: { "Content-Type": "multipart/form-data" },
+    }),
+    operatorDetails: (id) =>
+    instance({
+        method: 'POST',
+        url: '/operators/details',
+        data: id,
+        headers: { "Content-Type": "multipart/form-data" },
     })
 }

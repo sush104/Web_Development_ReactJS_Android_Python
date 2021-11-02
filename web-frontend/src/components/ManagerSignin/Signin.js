@@ -19,8 +19,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="">
+        Bikeez
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -126,11 +126,7 @@ export default function Signin() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+                
                 <Grid item>
                   <Link href="/operatorsignin" variant="body2">
                     {"Are you a Operator? Login Here"}

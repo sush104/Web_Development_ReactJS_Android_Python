@@ -1,14 +1,11 @@
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 //import Signup from "./components/Signup/Signup";
 import OperatorSignin from "./components/OperatorSignin/Signin";
 import ManagerSignin from "./components/ManagerSignin/Signin";
 import Admin from "layouts/Admin.js";
 import Manager from "layouts/Manager.js"
-import {isLogin} from './utils/index';
-
 
 // const PrivateRoute = ({ component: Component, ...rest }) => {
 //   const user = "token from cookie";
