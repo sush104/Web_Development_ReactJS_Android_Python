@@ -17,18 +17,29 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
+import Report from "@material-ui/icons/Assessment";
 // core components/views for Admin layout
+import ManagerDashboard from "views/ManagerDashboard/Dashboard";
 import ManagerReports from "views/ManagerReports/ManagerReports";
+import ManagerProfile from "views/ManagerProfile/ManagerProfile";
 
 
 const managerDashboardRoutes = [
   {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: Dashboard,
+    component: ManagerDashboard,
+    layout: "/manager",
+  },
+  {
     path: "/reports",
     name: "View Reports",
-    icon: Dashboard,
+    icon: Report,
     component: ManagerReports,
     layout: "/manager",
-  }
+  },
+  
 ];
 
 export default managerDashboardRoutes;

@@ -1,9 +1,12 @@
 {
-    "PieData": [
-      {  
-        "datasets": {
-            "data": [300, 50, 100]
-        }
+    "response": [
+      { 
+        "station_name": "Byres Road",
+        "trips": 5
+      },
+      {
+        "station_name": "Partik",
+        "trips": 2
       }
     ]
 }
