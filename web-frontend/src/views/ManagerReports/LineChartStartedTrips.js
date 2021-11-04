@@ -3,23 +3,22 @@ import {Line} from 'react-chartjs-2';
 import api from "../../api/api";
 
 
-function LineChartRentBike() {
+function LineChartStartedTrips() {
 
     const [one, setOne] = useState()
     const [two, setTwo] = useState()
     const [three, setThree] = useState()
     const [four, setFour] = useState()
     const [five, setFive] = useState()
-
   
     useEffect(() => {
-      api.showTripCompleteLineChart().then((res) => {
+      api.showTripStartedLineChart().then((res) => {
         setOne(res.data.response[0])
         setTwo(res.data.response[1])
         setThree(res.data.response[2])
         setFour(res.data.response[3])
         setFive(res.data.response[4])
-        //console.log("Data from here->",res)
+        //console.log("Data->",one.num_trips)
       });
     },[]);
 
@@ -50,4 +49,4 @@ return(
   </div>
 );
 }
-export default LineChartRentBike;
+export default LineChartStartedTrips;

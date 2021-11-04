@@ -28,9 +28,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import Bar from '../ManagerReports/BarChart'
+import LineStarted from './LineChartStartedTrips.js'
 import Pie from '../ManagerReports/PieChart'
 import Line from './LineChartRevenue'
+import LineCustomer from './LineChartCustomer'
 import StackedBar from './StackedBarChart'
 import MultiLine from './LineChartRentBike'
 
@@ -51,46 +52,46 @@ export default function Dashboard() {
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="white">
-              <Bar />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Station wise total bikes</h4>
-              {/* <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p> */}
-            </CardBody>
-            {/* <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter> */}
-          </Card>
-        </GridItem>
+        
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="white">
               <Pie />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>All bikes grouped by status</h4>
+              <h4 className={classes.cardTitle}>Status of all bikes</h4>
             </CardBody>
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="white">
-              <Line />
+              <StackedBar />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Month wise Revenue Generation</h4>
+              <h4 className={classes.cardTitle}>Status of all bikes per station</h4>
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
+            <CardHeader color="white">
+              <LineCustomer />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>New Customers per month</h4>
             </CardBody>
           </Card> 
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
+            <CardHeader color="white">
+              <LineStarted />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>All trips started from station</h4>
+            </CardBody>
+          </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
@@ -98,20 +99,23 @@ export default function Dashboard() {
               <MultiLine />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Station wise completed trips</h4>
+              <h4 className={classes.cardTitle}>All trips ended at station</h4>
             </CardBody>
           </Card>
         </GridItem> 
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="white">
-              <StackedBar />
+              <Line />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Station wise Bike status</h4>
+              <h4 className={classes.cardTitle}>Month wise Revenue</h4>
             </CardBody>
-          </Card>
+          </Card> 
         </GridItem>
+        
+        
+        
       </GridContainer>
     </div>
   );

@@ -141,10 +141,16 @@ export default {
         url: '/managers/showline',
         headers: { "Content-Type": "multipart/form-data" },
     }),
-    showTripCompleteBarChart: () =>
+    showTripCompleteLineChart: () =>
     instance({
         method: 'GET',
-        url: '/managers/tripgraph',
+        url: '/managers/endtripgraph',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showTripStartedLineChart: () =>
+    instance({
+        method: 'GET',
+        url: '/managers/starttripgraph',
         headers: { "Content-Type": "multipart/form-data" },
     }),
     showStackedBarChart: () =>
@@ -152,6 +158,13 @@ export default {
         method: 'GET',
         url: '/managers/availdamagbar',
         headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showCustomerSignedupLineChart: () =>
+    instance({
+        method: 'GET',
+        url: '/managers/custaddgraph',
+        headers: { "Content-Type": "multipart/form-data" },
     })
+
 
 }

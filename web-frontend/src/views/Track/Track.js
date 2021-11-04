@@ -28,6 +28,7 @@ import avatar from "assets/img/faces/marc.jpg";
 import MaterialTable from "material-table";
 import {withRouter} from 'react-router-dom';
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { times } from "chartist";
 // const useStyles = makeStyles({
 //   caption: {
 //     color: "green",
@@ -257,7 +258,7 @@ class Track extends Component {
       <MaterialTable
         paging={false}
         //onRowClick={(evt, selectedRow) => alertMyRow(selectedRow)}
-        title="Track Bike (Click on any row to track that bike)"
+        title="Track Bike"
         columns={columns}
         data={config}
         // data ={[
@@ -268,27 +269,6 @@ class Track extends Component {
               icon: TrackIcon,  
               tooltip: 'Track Bike',
               render: (rowData) => {
-                // try {
-                //   setInterval(async () => {
-                //     const {trip} = this.state;
-                //     const cycle_id = new FormData()
-                //     cycle_id.append("cycle_id", rowData.cycle_id)
-                //     // for (var pair of cycle_id.entries()) {
-                //     //   console.log(pair[0]+ ', ' + pair[1]); 
-                //     // }
-                //     api.showActiveTripDetails(cycle_id).then((res) => {
-                //       //console.log("Data")
-                //       //console.log("trip->",res.data.response)
-                //      this.setState({
-                //       trip: res.data.response
-                //      })
-                //        //console.log(trip)
-                //     });
-
-                //   }, 5000);
-                //   } catch(e) {
-                //          console.log(e);
-                //   }
                   new Promise((resolve, reject) => {
                     setTimeout(() => {
                     {
@@ -321,9 +301,9 @@ class Track extends Component {
                             <Card profile>
                                     <CardBody profile>
                                     {/* <h6 className={classes.cardCategory}>{rowData.model_number}</h6> */}
-                                    <h4 className={classes.cardTitle}>{rowData.cycle_id}</h4>
+                                    <h4 className={classes.cardTitle}>Cycle is currently on RENT</h4>
                                     <p className={classes.description}>
-                                        Address: {trip.address} 
+                                        Details Below:
                                     </p>
                                     <p className={classes.description}>
                                         Latitude: {trip.location_lat}
@@ -332,7 +312,7 @@ class Track extends Component {
                                         Longitude: {trip.location_long}
                                     </p>
                                     <p className={classes.description}>
-                                        Trip Start Time: {trip.started_at}
+                                        Trip Start Time: {new Date(trip.started_at).toString()}
                                     </p>
                                 </CardBody>
                             </Card>
