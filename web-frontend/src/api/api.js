@@ -106,5 +106,52 @@ export default {
         url: '/operators/details',
         data: id,
         headers: { "Content-Type": "multipart/form-data" },
+    }),
+    managerLogin: (loginDetails) =>
+    instance({
+        method: 'POST',
+        url: '/managers/login',
+        data:  loginDetails,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    managerLogout: (logoutData) =>
+    instance({
+        method:'POST',
+        url:'/managers/logout',
+        data:  logoutData,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    managerDetails: (manager_id) =>
+    instance({
+        method: 'GET',
+        url: '/managers/showdetail',
+        data: manager_id,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    addOperator: (operatorDetails) =>
+    instance({
+        method: 'POST',
+        url: '/managers/addoperator',
+        data: operatorDetails,
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showLineChart: () =>
+    instance({
+        method: 'GET',
+        url: '/managers/showline',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showTripCompleteBarChart: () =>
+    instance({
+        method: 'GET',
+        url: '/managers/tripgraph',
+        headers: { "Content-Type": "multipart/form-data" },
+    }),
+    showStackedBarChart: () =>
+    instance({
+        method: 'GET',
+        url: '/managers/availdamagbar',
+        headers: { "Content-Type": "multipart/form-data" },
     })
+
 }
