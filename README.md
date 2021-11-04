@@ -14,6 +14,7 @@ Special thanks go to:
 Quick start options:
 
 - Clone the repo: `git clone https://stgit.dcs.gla.ac.uk/programming-and-systems-development-m/2021/f-lb1-team9/bikeez-client-website.git`.
+- `cd web-frontend`
 - `npm i material-dashboard-react`
 - `npm install`
 - `npm start`
@@ -21,10 +22,10 @@ Quick start options:
 ## Important Credentials
 
 - Operator Details : 
-    Email:      carl.jung@gmail.com
+    Email:      operator@bikez.com
     Password:   Pass@123
 - Manager Details:
-    Email:      manager@bikez.com
+    Email:      martin.heidegger@gmail.com
     Password:   Pass@123
 ## File Structure
 

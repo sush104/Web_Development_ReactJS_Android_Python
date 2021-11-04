@@ -50,7 +50,7 @@ export default function Signin() {
           ls.set('token', res.data.response.access_token);
           ls.set('email', 'martin.heidegger@gmail.com');
           ls.set('id', res.data.response.manager_id)
-          location.href = '/manager/reports'
+          location.href = '/manager/dashboard'
           //console.log(ls.get('email'))          
         } 
     });

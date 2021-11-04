@@ -47,7 +47,7 @@ export default function Signin() {
         {
           //this.props.history.push('/admin/dashboard')
           ls.set('token', res.data.response.access_token);
-          ls.set('email', 'carl.jung@gmail.com');
+          ls.set('email', res.data.response.email);
           ls.set('id', res.data.response.operator_id)
           location.href = '/admin/dashboard'
           //console.log(ls.get('email'))          
