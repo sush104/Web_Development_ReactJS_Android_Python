@@ -185,6 +185,10 @@ class Dashboard extends Component {
         title: "Cycle category",
         field: "category",
         value: category,
+        lookup:{
+            "ELECTRIC": "ELECTRIC",
+            "MANUAL": "MANUAL"
+        },
         cellStyle: {
           fontSize: 16,
         },
@@ -222,19 +226,6 @@ class Dashboard extends Component {
         },
       },
       {
-        title: "Availability",
-        field: "status_id",
-        value: status_id,
-        // lookup: data.map((c) => (
-        //   <MenuItem key={c.station_id} value={c.station_id}>
-        //     {c.station}
-        //   </MenuItem>
-        // )), 
-        cellStyle: {
-          fontSize: 16,
-        },
-      },
-      {
         title: "Station Name",
         field: "station_id",
         value: station_id,
@@ -248,8 +239,6 @@ class Dashboard extends Component {
         },
       },
     ];
-
-  
     return (
 
       <MaterialTable

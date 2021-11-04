@@ -30,7 +30,9 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Bar from '../ManagerReports/BarChart'
 import Pie from '../ManagerReports/PieChart'
-import Line from '../ManagerReports/LineChart'
+import Line from './LineChartRevenue'
+import StackedBar from './StackedBarChart'
+import MultiLine from './LineChartRentBike'
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -55,7 +57,7 @@ export default function Dashboard() {
               <Bar />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>All cycles/Station</h4>
+              <h4 className={classes.cardTitle}>Station wise total bikes</h4>
               {/* <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
@@ -76,7 +78,7 @@ export default function Dashboard() {
               <Pie />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>All cycles by Status</h4>
+              <h4 className={classes.cardTitle}>All bikes grouped by status</h4>
             </CardBody>
           </Card>
         </GridItem>
@@ -86,7 +88,27 @@ export default function Dashboard() {
               <Line />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Bikes/Stand</h4>
+              <h4 className={classes.cardTitle}>Month wise Revenue Generation</h4>
+            </CardBody>
+          </Card> 
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
+            <CardHeader color="white">
+              <MultiLine />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Station wise completed trips</h4>
+            </CardBody>
+          </Card>
+        </GridItem> 
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart>
+            <CardHeader color="white">
+              <StackedBar />
+            </CardHeader>
+            <CardBody>
+              <h4 className={classes.cardTitle}>Station wise Bike status</h4>
             </CardBody>
           </Card>
         </GridItem>

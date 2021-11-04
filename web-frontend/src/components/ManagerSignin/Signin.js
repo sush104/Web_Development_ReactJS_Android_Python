@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import api from "../../api/api";
 import managerpng from "../../assets/img/Manager.png"
+import ls from 'local-storage'
 
 function Copyright(props) {
   return (
@@ -33,22 +34,44 @@ const theme = createTheme();
 export default function Signin() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // const data = new FormData();
-    // data.append('email', 'manager@bikez.com');
-    // data.append('hashed_password', 'Pass@123');
     
-    //console.log(data);
+    const data = new FormData(event.currentTarget);
+    //const data = new FormData();
+    data.append('email', data.get('email'));
+    data.append('hashed_password', data.get('password'));
+    
+    console.log(data);
 
-    if(data.get('email') == "manager@bikez.com"  && data.get('password') == 'Pass@123')
-    {
-      //this.props.history.push('/admin/dashboard')
-      location.href = '/manager'
-    }
-    else
-    {
-      window.alert("Login Unsuccessful, Try agian!")
-    }
+    api.managerLogin(data).then((res) => {
+      console.log(res.data)
+      if(res.data.status.error_code == 0)
+        {
+          //this.props.history.push('/admin/dashboard')
+          ls.set('token', res.data.response.access_token);
+          ls.set('email', 'martin.heidegger@gmail.com');
+          ls.set('id', res.data.response.manager_id)
+          location.href = '/manager/reports'
+          //console.log(ls.get('email'))          
+        } 
+    });
+    
+    
+    // const data = new FormData(event.currentTarget);
+    // // const data = new FormData();
+    // // data.append('email', 'manager@bikez.com');
+    // // data.append('hashed_password', 'Pass@123');
+    
+    // //console.log(data);
+
+    // if(data.get('email') == "manager@bikez.com"  && data.get('password') == 'Pass@123')
+    // {
+    //   //this.props.history.push('/admin/dashboard')
+    //   location.href = '/manager'
+    // }
+    // else
+    // {
+    //   window.alert("Login Unsuccessful, Try agian!")
+    // }
     
     
     // api.login(data).then((res) => {
