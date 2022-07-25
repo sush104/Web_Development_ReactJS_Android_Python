@@ -20,10 +20,16 @@ Quick start options:
 - `npm start`
 - You should see the web application running on `http://localhost:3000/operatorsignin`
 
-##Cloning other repo of this project:
+Cloning other repo of this project:
 
 bikeez-server: `git clone https://stgit.dcs.gla.ac.uk/programming-and-systems-development-m/2021/f-lb1-team9/bikeez-server.git`
 bikeez-client-android: `git clone https://stgit.dcs.gla.ac.uk/programming-and-systems-development-m/2021/f-lb1-team9/bikeez-client-android.git`
+
+Walkthrough of the entire project:
+https://web.microsoftstream.com/video/55007cd0-9783-4598-9ad6-c6c346dca6de
+
+Snapshots of Entire project:
+https://drive.google.com/drive/folders/1zBVvT9RkqGGjjb7ChrrVQTaZBs7f1rW1?usp=sharing
 
 ## Important Credentials
 
